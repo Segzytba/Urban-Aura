@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Urban Aura</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .checkout-container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+    }
+    .checkout-container h2 {
+      text-align: center;
+    }
+    form input, form textarea, form select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    .cart-summary {
+      margin-bottom: 20px;
+      background-color: #f8f8f8;
+      padding: 15px;
+    }
+    button {
+      padding: 12px;
+      width: 100%;
+      background-color: black;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Cart Icon -->
+<div class="cart-floating" onclick="toggleCartPreview()">
+  🛒 <span id="cart-count">0</span>
+</div>
+
+<!-- Optional: Mini Cart Preview -->
+<div class="cart-preview" id="cart-preview">
+  <h4>Your Cart</h4>
+  <ul id="preview-items"></ul>
+  <p><strong>Total: ₦<span id="preview-total">0</span></strong></p>
+  <a href="cart.html" class="go-to-cart">Go to Cart</a>
+</div>
+
+  <header>
+    <h1>Urban Aura</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="cart.html">Cart</a>
+      <a href="checkout.html">Checkout</a>
+    </nav>
+  </header>
+
+  <div class="checkout-container">
+    <h2>Checkout</h2>
+
+    <div class="cart-summary" id="cart-summary">
+      <!-- Cart items and total will load here -->
+    </div>
+
+    <form id="checkout-form">
+      <input type="text" id="fullname" placeholder="Full Name" required />
+      <input type="email" id="email" placeholder="Email Address" required />
+      <textarea id="address" placeholder="Delivery Address" required></textarea>
+      <input type="text" id="phone" placeholder="Phone Number" required />
+
+      <label for="state-select">State</label>
+      <select id="state-select" required>
+        <option value="">Select State</option>
+        <option value="Lagos">Lagos</option>
+        <option value="Ogun">Ogun</option>
+        <option value="Others">Others</option>
+      </select>
+
+      <button type="button" onclick="payWithPaystack()">Pay Now</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>&copy; 2023 Urban Aura. All rights reserved.</p>
+    <p><a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms & Conditions</a></p>
+  </footer>
+
+  <!-- Paystack & EmailJS Scripts -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    emailjs.init("QQOHK4e4OmAmnBa_a");
+  </script>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartSummary = document.getElementById("cart-summary");
+    let total = 0;
+    let orderDetails = "";
+
+    if (cart.length === 0) {
+      cartSummary.innerHTML = "<p>Your cart is empty.</p>";
+    } else {
+      let html = "<h3>Order Summary</h3><ul>";
+      cart.forEach(item => {
+        html += `<li>${item.productName} - ₦${item.price.toLocaleString()}</li>`;
+        orderDetails += `📦 ${item.productName} - ₦${item.price.toLocaleString()}\n`;
+        total += item.price;
+      });
+      html += `</ul><p><strong>Total: ₦${total.toLocaleString()}</strong></p>`;
+      cartSummary.innerHTML = html;
+    }
+
+    function calculatePaystackTotal(amountToReceive) {
+      let fee = amountToReceive <= 2500 ? 0.015 * amountToReceive : 0.015 * amountToReceive + 100;
+      if (fee > 2000) fee = 2000;
+      let gross = amountToReceive / (1 - (fee / amountToReceive));
+      return Math.ceil(gross);
+    }
+
+    function payWithPaystack() {
+      const fullName = document.getElementById("fullname").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
+      const address = document.getElementById("address").value;
+
+      if (!fullName || !email || !phone || !address) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const totalWithFee = calculatePaystackTotal(total);
+
+      const handler = PaystackPop.setup({
+        key: "pk_live_ebd999546b1f50c20991b7b33fbb4de8ff2a18ab", // Live key
+        email: email,
+        amount: totalWithFee * 100, // Convert to Kobo
+        currency: "NGN",
+        ref: "UA-" + Math.floor(Math.random() * 1000000000 + 1),
+        metadata: {
+          custom_fields: [
+            { display_name: "Customer Name", variable_name: "customer_name", value: fullName },
+            { display_name: "Phone Number", variable_name: "phone", value: phone },
+            { display_name: "Address", variable_name: "address", value: address }
+          ]
+        },
+        callback: function (response) {
+          // Send email using EmailJS
+          emailjs.send("service_29moyrs", "template_38x21c9", {
+            fullname: fullName,
+            email: email,
+            phone: phone,
+            address: address,
+            amount: totalWithFee.toLocaleString(),
+            reference: response.reference,
+            order: orderDetails
+          }).then(function () {
+            alert("✅ Payment successful & order placed!");
+            localStorage.removeItem("cart");
+            window.location.href = "index.html";
+          }, function (error) {
+            alert("Payment succeeded but email failed: " + error.text);
+          });
+        },
+        onClose: function () {
+          alert("❌ Payment was cancelled.");
+        }
+      });
+
+      handler.openIframe();
+    }
+  </script>
+  <script>
+  // Display item count
+  const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+  document.getElementById('cart-count').textContent = cartItems.length;
+
+  // Populate mini cart
+  const previewList = document.getElementById('preview-items');
+  const previewTotal = document.getElementById('preview-total');
+  let previewCartTotal = 0;
+
+  cartItems.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = `${item.productName} - ₦${item.price.toLocaleString()}`;
+    previewList.appendChild(li);
+    previewCartTotal += item.price;
+  });
+
+  previewTotal.textContent = previewCartTotal.toLocaleString();
+
+  // Toggle cart preview
+  function toggleCartPreview() {
+    const preview = document.getElementById('cart-preview');
+    preview.style.display = preview.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // Optional: close preview when clicking outside
+  document.addEventListener('click', function(e) {
+    const preview = document.getElementById('cart-preview');
+    const cartIcon = document.querySelector('.cart-floating');
+    if (!preview.contains(e.target) && !cartIcon.contains(e.target)) {
+      preview.style.display = 'none';
+    }
+  });
+</script>
+  <script src="css/js/script.js"></script>
+</div>
+</body>
+</html>
+
+<!-- This is the end of the checkout.html file -->
+
+
+

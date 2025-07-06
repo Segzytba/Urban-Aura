@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping Cart - Urban Aura</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<!-- Floating Cart Icon -->
+<div class="cart-floating" onclick="toggleCartPreview()">
+  🛒 <span id="cart-count">0</span>
+</div>
+
+<!-- Optional: Mini Cart Preview -->
+<div class="cart-preview" id="cart-preview">
+  <h4>Your Cart</h4>
+  <ul id="preview-items"></ul>
+  <p><strong>Total: ₦<span id="preview-total">0</span></strong></p>
+  <a href="cart.html" class="go-to-cart">Go to Cart</a>
+</div>
+
+
+  <header class="site-header">
+    <h1>Urban Aura</h1>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="cart.html">Cart</a>
+      <a href="checkout.html">Checkout</a>
+    </nav>
+  </header>
+
+  <main class="cart-page">
+    <div class="container">
+      <h2>Your Shopping Cart</h2>
+      <div id="cart-items" class="cart-items">
+        <!-- Cart items will be loaded here -->
+      </div>
+
+      <div class="cart-actions">
+        <button class="btn" onclick="window.location.href='shop.html'">Continue Shopping</button>
+        <button class="btn btn-primary" onclick="window.location.href='checkout.html'">Checkout</button>
+        <button class="btn btn-danger" onclick="clearCart()">Clear Cart</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Urban Aura Collections | Follow us:
+      <a href="https://www.instagram.com/urbanaura.style?igsh=YjJ4aXJjNHd1dWk5&utm_source=qr">Instagram</a> |
+      <a href="https://wa.link/ao2tmy">WhatsApp</a>
+    </p>
+  </footer>
+
+  <script>
+    // Load cart from localStorage
+    const cartDiv = document.getElementById('cart-items');
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function renderCart() {
+      if (cart.length === 0) {
+        cartDiv.innerHTML = "<p>Your cart is empty.</p>";
+        return;
+      }
+
+      let html = "<ul class='cart-list'>";
+      let total = 0;
+
+      cart.forEach(item => {
+        html += `<li class='cart-item'>${item.productName} - ₦${item.price.toLocaleString()}</li>`;
+        total += item.price;
+      });
+
+      html += `</ul><p class='cart-total'><strong>Total: ₦${total.toLocaleString()}</strong></p>`;
+      cartDiv.innerHTML = html;
+    }
+
+    function clearCart() {
+      localStorage.removeItem("cart");
+      renderCart();
+      alert("Your cart has been cleared.");
+    }
+
+    document.addEventListener("DOMContentLoaded", renderCart);
+  </script>
+
+<script>
+  // Display item count
+  const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+  document.getElementById('cart-count').textContent = cartItems.length;
+
+  // Populate mini cart
+  const previewList = document.getElementById('preview-items');
+  const previewTotal = document.getElementById('preview-total');
+  let total = 0;
+
+  cartItems.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = `${item.productName} - ₦${item.price.toLocaleString()}`;
+    previewList.appendChild(li);
+    total += item.price;
+  });
+
+  previewTotal.textContent = total.toLocaleString();
+
+  // Toggle cart preview
+  function toggleCartPreview() {
+    const preview = document.getElementById('cart-preview');
+    preview.style.display = preview.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // Optional: close preview when clicking outside
+  document.addEventListener('click', function(e) {
+    const preview = document.getElementById('cart-preview');
+    const cartIcon = document.querySelector('.cart-floating');
+    if (!preview.contains(e.target) && !cartIcon.contains(e.target)) {
+      preview.style.display = 'none';
+    }
+  });
+</script>
+</main>
+  <script src="Css/js/script.js"></script>
+</body>
+</html>
