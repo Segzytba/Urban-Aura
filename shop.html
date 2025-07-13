@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>urban Aura</title>
+    <link rel="stylesheet" href="css/style.css ">
+</head>
+<style>
+  body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+
+  }
+</style>
+<body>
+  <!-- Floating Cart Icon -->
+<div class="cart-floating" onclick="toggleCartPreview()">
+  🛒 <span id="cart-count">0</span>
+</div>
+
+<!-- Optional: Mini Cart Preview -->
+<div class="cart-preview" id="cart-preview">
+  <h4>Your Cart</h4>
+  <ul id="preview-items"></ul>
+  <p><strong>Total: ₦<span id="preview-total">0</span></strong></p>
+  <a href="cart.html" class="go-to-cart">Go to Cart</a>
+</div>
+
+  <header class="site-header">
+    <h1>Urban Aura</h1>
+
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="cart.html">Cart</a>
+      <a href="checkout.html">Checkout</a>
+    </nav>
+  </header>
+  <div class="hero">
+    <h1>Welcome to Urban Aura</h1>
+    <p>Discover the latest in urban fashion</p>
+  </div>
+  
+
+    <div class="products">
+  <div class="product">
+    <img src="Css/images/Black Blaze Flow Tee.jpg" alt="Shirt">
+    <h3>BLACK BLAZE FLOW TEE</h3>
+    <p>&#8358;22,000.NGN</p>
+    <button onclick="addToCart('Black Blaze Flow Tee', 22000)">Add to Cart</button>
+  </div>
+
+  
+  <div class="product">
+    <img src="Css/images/Black Drift Tee.jpg" alt="Shirt">
+    <h3>BLACK DRIFT TEE</h3> 
+    <p>&#8358;22,000.NGN</p>
+    <button onclick="addToCart('Black Drift Tee', 22000)">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <img src="Css/images/Brown Drift Tee.jpg" alt="Shirt"> 
+    <h3>BROWN DRIFT TEE</h3>
+    <p>&#8358;22,000.NGN</p>
+    <button onclick="addToCart('Brown Drift Tee', 22000)">Add to Cart</button>
+  </div>
+
+
+  <div class="product">
+    <img src="Css/images/Cream Blaze Flow Tee.jpg" alt="Shirt">
+    <h3>CREAM BLAZE FLOW TEE</h3>
+    <p>&#8358;22,000.NGN</p>
+    <button onclick="addToCart('Cream Blaze Tee', 22000)">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <img src="Css/images/Green Drift Tee.jpg" alt="Shirt">  
+    <h3>GREEN DRIFT TEE</h3>
+    <p>&#8358;22,000.NGN</p>
+    <button onclick="addToCart('Green Drift Tee', 22000)">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <img src="Css/images/White Blaze Flow Tee.jpg" alt="Shirt"> 
+    <h3>WHITE BLAZE FLOW TEE</h3>
+    <p>&#8358;22,000.NGN</p>
+    <button onclick="addToCart('White Blaze Flow Tee', 22000)">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <img src="Css/images/Pink Blaze Flow Tee.jpg" alt="Shirt">
+    <h3>PINK BLAZE FLOW TEE</h3>
+    <p>&#8358;22,000.NGN</p>
+    <button onclick="addToCart('Pink Blaze Flow Tee', 22000)">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <img src="Css/images/Green Aura Tank Top.jpg" alt="Shirt">
+    <h3>GREEN AURA TANK TOP</h3>
+    <p>&#8358;25,000.NGN</p>
+    <button onclick="addToCart('Green Aura Tank Top', 25000)">Add to Cart</button>
+  </div>
+
+
+<script>
+  // Display item count
+  const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+  document.getElementById('cart-count').textContent = cartItems.length;
+
+  // Populate mini cart
+  const previewList = document.getElementById('preview-items');
+  const previewTotal = document.getElementById('preview-total');
+  let total = 0;
+
+  cartItems.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = `${item.productName} - ₦${item.price.toLocaleString()}`;
+    previewList.appendChild(li);
+    total += item.price;
+  });
+
+  previewTotal.textContent = total.toLocaleString();
+
+  // Toggle cart preview
+  function toggleCartPreview() {
+    const preview = document.getElementById('cart-preview');
+    preview.style.display = preview.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // Optional: close preview when clicking outside
+  document.addEventListener('click', function(e) {
+    const preview = document.getElementById('cart-preview');
+    const cartIcon = document.querySelector('.cart-floating');
+    if (!preview.contains(e.target) && !cartIcon.contains(e.target)) {
+      preview.style.display = 'none';
+    }
+  });
+</script>
+</div>
+
+
+    <script src="Css/js/script.js"></script>
+</body>
+</html>
