@@ -35,7 +35,7 @@
     </header>
 
     <section class="hero">
-      <img src="URBAN AURA.jpg" alt="URBAN AURA" />
+      <img src="images/URBAN AURA.jpg" alt="URBAN AURA" />
       <div class="hero-text">
         <h2>Discover Our Latest Collection</h2>
         <p>Made with passion and culture.</p>
@@ -59,7 +59,11 @@
     <script>
       // Display item count
       const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-      document.getElementById("cart-count").textContent = cartItems.length;
+      const totalItems = cartItems.reduce(
+        (sum, item) => sum + item.quantity,
+        0
+      );
+      document.getElementById("cart-count").textContent = totalItems;
 
       // Populate mini cart
       const previewList = document.getElementById("preview-items");
@@ -68,11 +72,11 @@
 
       cartItems.forEach((item) => {
         const li = document.createElement("li");
-        li.textContent = `${
-          item.productName
-        } - ₦${item.price.toLocaleString()}`;
+        li.textContent = `${item.productName} (${item.quantity}) - ₦${(
+          item.price * item.quantity
+        ).toLocaleString()}`;
         previewList.appendChild(li);
-        total += item.price;
+        total += item.price * item.quantity;
       });
 
       previewTotal.textContent = total.toLocaleString();
@@ -93,6 +97,12 @@
         }
       });
     </script>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <span id="toast-message"></span>
+      <button onclick="closeToast()" class="toast-close">&times;</button>
+    </div>
 
     <script src="script.js"></script>
   </body>

@@ -1,146 +1,330 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>urban Aura</title>
-    <link rel="stylesheet" href="style.css ">
-</head>
-<style>
-  body {
-    background-color: black;
-    color: white;
-    font-family: Arial, sans-serif;
-
-  }
-</style>
-<body>
-  <!-- Floating Cart Icon -->
-<div class="cart-floating" onclick="toggleCartPreview()">
-  🛒 <span id="cart-count">0</span>
-</div>
-
-<!-- Optional: Mini Cart Preview -->
-<div class="cart-preview" id="cart-preview">
-  <h4>Your Cart</h4>
-  <ul id="preview-items"></ul>
-  <p><strong>Total: ₦<span id="preview-total">0</span></strong></p>
-  <a href="cart.html" class="go-to-cart">Go to Cart</a>
-</div>
-
-  <header class="site-header">
-    <h1>Urban Aura</h1>
-
-    <nav class="nav">
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="cart.html">Cart</a>
-      <a href="checkout.html">Checkout</a>
-    </nav>
-  </header>
-  <div class="hero">
-    <h1>Welcome to Urban Aura</h1>
-    <p>Discover the latest in urban fashion</p>
-  </div>
-  
-
-    <div class="products">
-  <div class="product">
-    <img src="Css/images/Black Blaze Flow Tee.jpg" alt="Shirt">
-    <h3>BLACK BLAZE FLOW TEE</h3>
-    <p>&#8358;22,000.NGN</p>
-    <button onclick="addToCart('Black Blaze Flow Tee', 22000)">Add to Cart</button>
-  </div>
-
-  
-  <div class="product">
-    <img src="Css/images/Black Drift Tee.jpg" alt="Shirt">
-    <h3>BLACK DRIFT TEE</h3> 
-    <p>&#8358;22,000.NGN</p>
-    <button onclick="addToCart('Black Drift Tee', 22000)">Add to Cart</button>
-  </div>
-
-  <div class="product">
-    <img src="Css/images/Brown Drift Tee.jpg" alt="Shirt"> 
-    <h3>BROWN DRIFT TEE</h3>
-    <p>&#8358;22,000.NGN</p>
-    <button onclick="addToCart('Brown Drift Tee', 22000)">Add to Cart</button>
-  </div>
-
-
-  <div class="product">
-    <img src="Css/images/Cream Blaze Flow Tee.jpg" alt="Shirt">
-    <h3>CREAM BLAZE FLOW TEE</h3>
-    <p>&#8358;22,000.NGN</p>
-    <button onclick="addToCart('Cream Blaze Tee', 22000)">Add to Cart</button>
-  </div>
-
-  <div class="product">
-    <img src="Css/images/Green Drift Tee.jpg" alt="Shirt">  
-    <h3>GREEN DRIFT TEE</h3>
-    <p>&#8358;22,000.NGN</p>
-    <button onclick="addToCart('Green Drift Tee', 22000)">Add to Cart</button>
-  </div>
-
-  <div class="product">
-    <img src="Css/images/White Blaze Flow Tee.jpg" alt="Shirt"> 
-    <h3>WHITE BLAZE FLOW TEE</h3>
-    <p>&#8358;22,000.NGN</p>
-    <button onclick="addToCart('White Blaze Flow Tee', 22000)">Add to Cart</button>
-  </div>
-
-  <div class="product">
-    <img src="Css/images/Pink Blaze Flow Tee.jpg" alt="Shirt">
-    <h3>PINK BLAZE FLOW TEE</h3>
-    <p>&#8358;22,000.NGN</p>
-    <button onclick="addToCart('Pink Blaze Flow Tee', 22000)">Add to Cart</button>
-  </div>
-
-  <div class="product">
-    <img src="Css/images/Green Aura Tank Top.jpg" alt="Shirt">
-    <h3>GREEN AURA TANK TOP</h3>
-    <p>&#8358;25,000.NGN</p>
-    <button onclick="addToCart('Green Aura Tank Top', 25000)">Add to Cart</button>
-  </div>
-
-
-<script>
-  // Display item count
-  const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-  document.getElementById('cart-count').textContent = cartItems.length;
-
-  // Populate mini cart
-  const previewList = document.getElementById('preview-items');
-  const previewTotal = document.getElementById('preview-total');
-  let total = 0;
-
-  cartItems.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = `${item.productName} - ₦${item.price.toLocaleString()}`;
-    previewList.appendChild(li);
-    total += item.price;
-  });
-
-  previewTotal.textContent = total.toLocaleString();
-
-  // Toggle cart preview
-  function toggleCartPreview() {
-    const preview = document.getElementById('cart-preview');
-    preview.style.display = preview.style.display === 'block' ? 'none' : 'block';
-  }
-
-  // Optional: close preview when clicking outside
-  document.addEventListener('click', function(e) {
-    const preview = document.getElementById('cart-preview');
-    const cartIcon = document.querySelector('.cart-floating');
-    if (!preview.contains(e.target) && !cartIcon.contains(e.target)) {
-      preview.style.display = 'none';
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
     }
-  });
-</script>
-</div>
+  </style>
+  <body>
+    <!-- Floating Cart Icon -->
+    <div class="cart-floating" onclick="toggleCartPreview()">
+      🛒 <span id="cart-count">0</span>
+    </div>
 
+    <!-- Optional: Mini Cart Preview -->
+    <div class="cart-preview" id="cart-preview">
+      <h4>Your Cart</h4>
+      <ul id="preview-items"></ul>
+      <p>
+        <strong>Total: ₦<span id="preview-total">0</span></strong>
+      </p>
+      <a href="cart.html" class="go-to-cart">Go to Cart</a>
+    </div>
 
-    <script src="Css/js/script.js"></script>
-</body>
+    <header class="site-header">
+      <h1>Urban Aura</h1>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="cart.html">Cart</a>
+        <a href="checkout.html">Checkout</a>
+      </nav>
+    </header>
+    <div class="hero">
+      <h1>Welcome to Urban Aura</h1>
+      <p>Discover the latest in urban fashion</p>
+    </div>
+
+    <script>
+      const productCatalog = [
+        {
+          name: "Black Blaze Flow Tee",
+          source: "images/Black Blaze Flow Tee.jpg",
+          price: 22000,
+          stock: 10,
+          id: "black-blaze-flow",
+        },
+        {
+          name: "Black Drift Tee",
+          source: "images/Black Drift Tee.jpg",
+          price: 22000,
+          stock: 8,
+          id: "black-drift",
+        },
+        {
+          name: "Brown Drift Tee",
+          source: "images/Brown Drift Tee.jpg",
+          price: 22000,
+          stock: 12,
+          id: "brown-drift",
+        },
+        {
+          name: "Cream Blaze Flow Tee",
+          source: "images/Cream Blaze Flow Tee.jpg",
+          price: 22000,
+          stock: 6,
+          id: "cream-blaze-flow",
+        },
+        {
+          name: "Green Drift Tee",
+          source: "images/Green Drift Tee.jpg",
+          price: 22000,
+          stock: 9,
+          id: "green-drift",
+        },
+        {
+          name: "White Blaze Flow Tee",
+          source: "images/White Blaze Flow Tee.jpg",
+          price: 22000,
+          stock: 5,
+          id: "white-blaze-flow",
+        },
+        {
+          name: "Pink Blaze Flow Tee",
+          source: "images/Pink Blaze Flow Tee.jpg",
+          price: 22000,
+          stock: 7,
+          id: "pink-blaze-flow",
+        },
+        {
+          name: "Green Aura Tank Top",
+          source: "images/Green Aura Tank Top.jpg",
+          price: 25000,
+          stock: 4,
+          id: "green-tank",
+        },
+      ];
+
+      // Load stock from localStorage or use default
+      function loadStock() {
+        const savedStock = localStorage.getItem("productStock");
+        if (savedStock) {
+          const stockData = JSON.parse(savedStock);
+          productCatalog.forEach((product) => {
+            if (stockData[product.id] !== undefined) {
+              product.stock = stockData[product.id];
+            }
+          });
+        }
+      }
+
+      // Save stock to localStorage
+      function saveStock() {
+        const stockData = {};
+        productCatalog.forEach((product) => {
+          stockData[product.id] = product.stock;
+        });
+        localStorage.setItem("productStock", JSON.stringify(stockData));
+      }
+
+      // Load stock when page loads
+      loadStock();
+    </script>
+    <div class="products">
+      <div class="product" data-product-id="black-blaze-flow">
+        <img src="images/Black Blaze Flow Tee.jpg" alt="Shirt" />
+        <h3>BLACK BLAZE FLOW TEE</h3>
+        <p>&#8358;22,000</p>
+        <p class="stock-info">Stock: <span class="stock-count">10</span></p>
+        <div class="quantity-controls">
+          <label for="qty-black-blaze-flow">Quantity:</label>
+          <input
+            type="number"
+            id="qty-black-blaze-flow"
+            min="1"
+            max="10"
+            value="1"
+          />
+        </div>
+        <button
+          onclick="addToCart('Black Blaze Flow Tee', 22000, 'black-blaze-flow')"
+        >
+          Add to Cart
+        </button>
+      </div>
+
+      <div class="product" data-product-id="black-drift">
+        <img src="images/Black Drift Tee.jpg" alt="Shirt" />
+        <h3>BLACK DRIFT TEE</h3>
+        <p>&#8358;22,000</p>
+        <p class="stock-info">Stock: <span class="stock-count">8</span></p>
+        <div class="quantity-controls">
+          <label for="qty-black-drift">Quantity:</label>
+          <input type="number" id="qty-black-drift" min="1" max="8" value="1" />
+        </div>
+        <button onclick="addToCart('Black Drift Tee', 22000, 'black-drift')">
+          Add to Cart
+        </button>
+      </div>
+
+      <div class="product" data-product-id="brown-drift">
+        <img src="images/Brown Drift Tee.jpg" alt="Shirt" />
+        <h3>BROWN DRIFT TEE</h3>
+        <p>&#8358;22,000</p>
+        <p class="stock-info">Stock: <span class="stock-count">12</span></p>
+        <div class="quantity-controls">
+          <label for="qty-brown-drift">Quantity:</label>
+          <input
+            type="number"
+            id="qty-brown-drift"
+            min="1"
+            max="12"
+            value="1"
+          />
+        </div>
+        <button onclick="addToCart('Brown Drift Tee', 22000, 'brown-drift')">
+          Add to Cart
+        </button>
+      </div>
+
+      <div class="product" data-product-id="cream-blaze-flow">
+        <img src="images/Cream Blaze Flow Tee.jpg" alt="Shirt" />
+        <h3>CREAM BLAZE FLOW TEE</h3>
+        <p>&#8358;22,000</p>
+        <p class="stock-info">Stock: <span class="stock-count">6</span></p>
+        <div class="quantity-controls">
+          <label for="qty-cream-blaze-flow">Quantity:</label>
+          <input
+            type="number"
+            id="qty-cream-blaze-flow"
+            min="1"
+            max="6"
+            value="1"
+          />
+        </div>
+        <button
+          onclick="addToCart('Cream Blaze Flow Tee', 22000, 'cream-blaze-flow')"
+        >
+          Add to Cart
+        </button>
+      </div>
+
+      <div class="product" data-product-id="green-drift">
+        <img src="images/Green Drift Tee.jpg" alt="Shirt" />
+        <h3>GREEN DRIFT TEE</h3>
+        <p>&#8358;22,000</p>
+        <p class="stock-info">Stock: <span class="stock-count">9</span></p>
+        <div class="quantity-controls">
+          <label for="qty-green-drift">Quantity:</label>
+          <input type="number" id="qty-green-drift" min="1" max="9" value="1" />
+        </div>
+        <button onclick="addToCart('Green Drift Tee', 22000, 'green-drift')">
+          Add to Cart
+        </button>
+      </div>
+
+      <div class="product" data-product-id="white-blaze-flow">
+        <img src="images/White Blaze Flow Tee.jpg" alt="Shirt" />
+        <h3>WHITE BLAZE FLOW TEE</h3>
+        <p>&#8358;22,000</p>
+        <p class="stock-info">Stock: <span class="stock-count">5</span></p>
+        <div class="quantity-controls">
+          <label for="qty-white-blaze-flow">Quantity:</label>
+          <input
+            type="number"
+            id="qty-white-blaze-flow"
+            min="1"
+            max="5"
+            value="1"
+          />
+        </div>
+        <button
+          onclick="addToCart('White Blaze Flow Tee', 22000, 'white-blaze-flow')"
+        >
+          Add to Cart
+        </button>
+      </div>
+
+      <div class="product" data-product-id="pink-blaze-flow">
+        <img src="images/Pink Blaze Flow Tee.jpg" alt="Shirt" />
+        <h3>PINK BLAZE FLOW TEE</h3>
+        <p>&#8358;22,000</p>
+        <p class="stock-info">Stock: <span class="stock-count">7</span></p>
+        <div class="quantity-controls">
+          <label for="qty-pink-blaze-flow">Quantity:</label>
+          <input
+            type="number"
+            id="qty-pink-blaze-flow"
+            min="1"
+            max="7"
+            value="1"
+          />
+        </div>
+        <button
+          onclick="addToCart('Pink Blaze Flow Tee', 22000, 'pink-blaze-flow')"
+        >
+          Add to Cart
+        </button>
+      </div>
+
+      <div class="product" data-product-id="green-tank">
+        <img src="images/Green Aura Tank Top.jpg" alt="Shirt" />
+        <h3>GREEN AURA TANK TOP</h3>
+        <p>&#8358;25,000</p>
+        <p class="stock-info">Stock: <span class="stock-count">4</span></p>
+        <div class="quantity-controls">
+          <label for="qty-green-tank">Quantity:</label>
+          <input type="number" id="qty-green-tank" min="1" max="4" value="1" />
+        </div>
+        <button onclick="addToCart('Green Aura Tank Top', 25000, 'green-tank')">
+          Add to Cart
+        </button>
+      </div>
+
+      <script>
+        // Display item count
+        const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+        document.getElementById("cart-count").textContent = cartItems.length;
+
+        // Populate mini cart
+        const previewList = document.getElementById("preview-items");
+        const previewTotal = document.getElementById("preview-total");
+        let total = 0;
+
+        cartItems.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = `${
+            item.productName
+          } - ₦${item.price.toLocaleString()}`;
+          previewList.appendChild(li);
+          total += item.price;
+        });
+
+        previewTotal.textContent = total.toLocaleString();
+
+        // Toggle cart preview
+        function toggleCartPreview() {
+          const preview = document.getElementById("cart-preview");
+          preview.style.display =
+            preview.style.display === "block" ? "none" : "block";
+        }
+
+        // Optional: close preview when clicking outside
+        document.addEventListener("click", function (e) {
+          const preview = document.getElementById("cart-preview");
+          const cartIcon = document.querySelector(".cart-floating");
+          if (!preview.contains(e.target) && !cartIcon.contains(e.target)) {
+            preview.style.display = "none";
+          }
+        });
+      </script>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+      <span id="toast-message"></span>
+      <button onclick="closeToast()" class="toast-close">&times;</button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
 </html>

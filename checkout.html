@@ -72,13 +72,23 @@
       <textarea id="address" placeholder="Delivery Address" required></textarea>
       <input type="text" id="phone" placeholder="Phone Number" required />
 
-      <label for="state-select">State</label>
-      <select id="state-select" required>
-        <option value="">Select State</option>
-        <option value="Lagos">Lagos</option>
-        <option value="Ogun">Ogun</option>
-        <option value="Others">Others</option>
-      </select>
+      <div class="delivery-area">
+        <label for="state-select">Delivery Area</label>
+        <select id="state-select" required onchange="updateDeliveryFee()">
+          <option value="">Select Delivery Area</option>
+          <option value="Lagos-Island" data-fee="2000">Lagos Island</option>
+          <option value="Lagos-Mainland" data-fee="1500">Lagos Mainland</option>
+          <option value="Lekki-Ajah" data-fee="2500">Lekki/Ajah</option>
+          <option value="Ikeja-Area" data-fee="1800">Ikeja Area</option>
+          <option value="Surulere" data-fee="1600">Surulere</option>
+          <option value="Ogun-State" data-fee="3000">Ogun State</option>
+          <option value="Other-Lagos" data-fee="2200">Other Lagos Areas</option>
+          <option value="Outside-Lagos" data-fee="4000">Outside Lagos</option>
+        </select>
+        <div class="delivery-fee" id="delivery-fee-display">
+          Select an area to see delivery fee
+        </div>
+      </div>
 
       <button type="button" onclick="payWithPaystack()">Pay Now</button>
     </form>
@@ -99,21 +109,61 @@
   <script>
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartSummary = document.getElementById("cart-summary");
+    let subtotal = 0;
+    let deliveryFee = 0;
     let total = 0;
     let orderDetails = "";
 
-    if (cart.length === 0) {
-      cartSummary.innerHTML = "<p>Your cart is empty.</p>";
-    } else {
+    function updateCartSummary() {
+      if (cart.length === 0) {
+        cartSummary.innerHTML = "<p>Your cart is empty.</p>";
+        return;
+      }
+
+      subtotal = 0;
+      orderDetails = "";
       let html = "<h3>Order Summary</h3><ul>";
+      
       cart.forEach(item => {
-        html += `<li>${item.productName} - ₦${item.price.toLocaleString()}</li>`;
-        orderDetails += `📦 ${item.productName} - ₦${item.price.toLocaleString()}\n`;
-        total += item.price;
+        const itemTotal = item.price * item.quantity;
+        html += `<li>${item.productName} (${item.quantity}) - ₦${itemTotal.toLocaleString()}</li>`;
+        orderDetails += `📦 ${item.productName} (${item.quantity}) - ₦${itemTotal.toLocaleString()}\n`;
+        subtotal += itemTotal;
       });
-      html += `</ul><p><strong>Total: ₦${total.toLocaleString()}</strong></p>`;
+      
+      html += `</ul>`;
+      html += `<div class="pricing-breakdown">`;
+      html += `<p>Subtotal: ₦${subtotal.toLocaleString()}</p>`;
+      if (deliveryFee > 0) {
+        html += `<p>Delivery Fee: ₦${deliveryFee.toLocaleString()}</p>`;
+      }
+      total = subtotal + deliveryFee;
+      html += `<p><strong>Total: ₦${total.toLocaleString()}</strong></p>`;
+      html += `</div>`;
+      
       cartSummary.innerHTML = html;
     }
+
+    function updateDeliveryFee() {
+      const stateSelect = document.getElementById("state-select");
+      const selectedOption = stateSelect.options[stateSelect.selectedIndex];
+      const feeDisplay = document.getElementById("delivery-fee-display");
+      
+      if (selectedOption.value) {
+        deliveryFee = parseInt(selectedOption.getAttribute("data-fee"));
+        feeDisplay.innerHTML = `Delivery Fee: ₦${deliveryFee.toLocaleString()}`;
+        feeDisplay.style.color = "#ff5722";
+      } else {
+        deliveryFee = 0;
+        feeDisplay.innerHTML = "Select an area to see delivery fee";
+        feeDisplay.style.color = "#666";
+      }
+      
+      updateCartSummary();
+    }
+
+    // Initialize cart summary
+    updateCartSummary();
 
     function calculatePaystackTotal(amountToReceive) {
       let fee = amountToReceive <= 2500 ? 0.015 * amountToReceive : 0.015 * amountToReceive + 100;
@@ -127,9 +177,16 @@
       const email = document.getElementById("email").value;
       const phone = document.getElementById("phone").value;
       const address = document.getElementById("address").value;
+      const stateSelect = document.getElementById("state-select");
+      const deliveryArea = stateSelect.value;
 
-      if (!fullName || !email || !phone || !address) {
-        alert("Please fill in all fields.");
+      if (!fullName || !email || !phone || !address || !deliveryArea) {
+        alert("Please fill in all fields including delivery area.");
+        return;
+      }
+
+      if (total === 0) {
+        alert("Your cart is empty.");
         return;
       }
 
@@ -145,7 +202,8 @@
           custom_fields: [
             { display_name: "Customer Name", variable_name: "customer_name", value: fullName },
             { display_name: "Phone Number", variable_name: "phone", value: phone },
-            { display_name: "Address", variable_name: "address", value: address }
+            { display_name: "Address", variable_name: "address", value: address },
+            { display_name: "Delivery Area", variable_name: "delivery_area", value: deliveryArea }
           ]
         },
         callback: function (response) {
@@ -155,12 +213,17 @@
             email: email,
             phone: phone,
             address: address,
+            delivery_area: deliveryArea,
+            subtotal: subtotal.toLocaleString(),
+            delivery_fee: deliveryFee.toLocaleString(),
             amount: totalWithFee.toLocaleString(),
             reference: response.reference,
             order: orderDetails
           }).then(function () {
             alert("✅ Payment successful & order placed!");
             localStorage.removeItem("cart");
+            // Reset stock when order is completed
+            localStorage.removeItem("productStock");
             window.location.href = "index.html";
           }, function (error) {
             alert("Payment succeeded but email failed: " + error.text);
@@ -177,7 +240,8 @@
   <script>
   // Display item count
   const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-  document.getElementById('cart-count').textContent = cartItems.length;
+  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  document.getElementById('cart-count').textContent = totalItems;
 
   // Populate mini cart
   const previewList = document.getElementById('preview-items');
@@ -186,9 +250,9 @@
 
   cartItems.forEach(item => {
     const li = document.createElement('li');
-    li.textContent = `${item.productName} - ₦${item.price.toLocaleString()}`;
+    li.textContent = `${item.productName} (${item.quantity}) - ₦${(item.price * item.quantity).toLocaleString()}`;
     previewList.appendChild(li);
-    previewCartTotal += item.price;
+    previewCartTotal += item.price * item.quantity;
   });
 
   previewTotal.textContent = previewCartTotal.toLocaleString();
@@ -208,7 +272,7 @@
     }
   });
 </script>
-  <script src="css/js/script.js"></script>
+  <script src="script.js"></script>
 </div>
 </body>
 </html>
