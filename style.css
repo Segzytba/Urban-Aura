@@ -6,7 +6,8 @@ body {
 }
 
 /* Header & Footer */
-header, footer {
+header,
+footer {
   background: black;
   color: white;
   text-align: center;
@@ -173,7 +174,8 @@ nav a {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
@@ -188,7 +190,8 @@ html, body {
     height: 150px;
   }
 
-  header, footer {
+  header,
+  footer {
     padding: 15px;
   }
 
@@ -248,7 +251,6 @@ html, body {
   background-color: #e64a19;
 }
 
-
 /* General layout */
 .container {
   max-width: 800px;
@@ -300,7 +302,8 @@ html, body {
 }
 
 /* Header/Footer (if not already styled) */
-.site-header, .site-footer {
+.site-header,
+.site-footer {
   text-align: center;
   background: black;
   color: white;
@@ -363,7 +366,7 @@ html, body {
   padding: 15px;
   border: 1px solid #ddd;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   display: none;
   z-index: 999;
 }
@@ -396,4 +399,3 @@ html, body {
   text-decoration: none;
   width: 100%;
 }
-

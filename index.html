@@ -1,89 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Urban Aura</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <!-- Floating Cart Icon -->
-<div class="cart-floating" onclick="toggleCartPreview()">
-  🛒 <span id="cart-count">0</span>
-</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Urban Aura</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Floating Cart Icon -->
+    <div class="cart-floating" onclick="toggleCartPreview()">
+      🛒 <span id="cart-count">0</span>
+    </div>
 
-<!-- Optional: Mini Cart Preview -->
-<div class="cart-preview" id="cart-preview">
-  <h4>Your Cart</h4>
-  <ul id="preview-items"></ul>
-  <p><strong>Total: ₦<span id="preview-total">0</span></strong></p>
-  <a href="cart.html" class="go-to-cart">Go to Cart</a>
-</div>
+    <!-- Optional: Mini Cart Preview -->
+    <div class="cart-preview" id="cart-preview">
+      <h4>Your Cart</h4>
+      <ul id="preview-items"></ul>
+      <p>
+        <strong>Total: ₦<span id="preview-total">0</span></strong>
+      </p>
+      <a href="cart.html" class="go-to-cart">Go to Cart</a>
+    </div>
 
-  <header>
-    <h1>Urban Aura</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      
-      <a href="contact.html">Contact</a>
-      <a href="cart.html">Cart</a>
-      <a href="checkout.html">Checkout</a>
-    </nav>
-  </header>
+    <header>
+      <h1>Urban Aura</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
 
-  <section class="hero">
-  <img src="Css/images/URBAN AURA.jpg" alt="URBAN AURA" />
-  <div class="hero-text">
-    <h2>Discover Our Latest Collection</h2>
-    <p>Made with passion and culture.</p>
-    <a href="shop.html" class="btn">Shop Now</a>
-  </div>
- </section>
+        <a href="contact.html">Contact</a>
+        <a href="cart.html">Cart</a>
+        <a href="checkout.html">Checkout</a>
+      </nav>
+    </header>
 
-  <!-- Unique page content goes here -->
+    <section class="hero">
+      <img src="URBAN AURA.jpg" alt="URBAN AURA" />
+      <div class="hero-text">
+        <h2>Discover Our Latest Collection</h2>
+        <p>Made with passion and culture.</p>
+        <a href="shop.html" class="btn">Shop Now</a>
+      </div>
+    </section>
 
-  <footer>
-    <p>© 2025 Urban Aura Collections | Follow us: 
-      <a href="https://www.instagram.com/urbanaura.style?igsh=YjJ4aXJjNHd1dWk5&utm_source=qr">Instagram</a> | 
-      <a href="https://wa.link/ao2tmy">Whatsapp</a>
-    </p>
-  </footer>
-<script>
-  // Display item count
-  const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-  document.getElementById('cart-count').textContent = cartItems.length;
+    <!-- Unique page content goes here -->
 
-  // Populate mini cart
-  const previewList = document.getElementById('preview-items');
-  const previewTotal = document.getElementById('preview-total');
-  let total = 0;
+    <footer>
+      <p>
+        © 2025 Urban Aura Collections | Follow us:
+        <a
+          href="https://www.instagram.com/urbanaura.style?igsh=YjJ4aXJjNHd1dWk5&utm_source=qr"
+          >Instagram</a
+        >
+        |
+        <a href="https://wa.link/ao2tmy">Whatsapp</a>
+      </p>
+    </footer>
+    <script>
+      // Display item count
+      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+      document.getElementById("cart-count").textContent = cartItems.length;
 
-  cartItems.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = `${item.productName} - ₦${item.price.toLocaleString()}`;
-    previewList.appendChild(li);
-    total += item.price;
-  });
+      // Populate mini cart
+      const previewList = document.getElementById("preview-items");
+      const previewTotal = document.getElementById("preview-total");
+      let total = 0;
 
-  previewTotal.textContent = total.toLocaleString();
+      cartItems.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = `${
+          item.productName
+        } - ₦${item.price.toLocaleString()}`;
+        previewList.appendChild(li);
+        total += item.price;
+      });
 
-  // Toggle cart preview
-  function toggleCartPreview() {
-    const preview = document.getElementById('cart-preview');
-    preview.style.display = preview.style.display === 'block' ? 'none' : 'block';
-  }
+      previewTotal.textContent = total.toLocaleString();
 
-  // Optional: close preview when clicking outside
-  document.addEventListener('click', function(e) {
-    const preview = document.getElementById('cart-preview');
-    const cartIcon = document.querySelector('.cart-floating');
-    if (!preview.contains(e.target) && !cartIcon.contains(e.target)) {
-      preview.style.display = 'none';
-    }
-  });
-</script>
+      // Toggle cart preview
+      function toggleCartPreview() {
+        const preview = document.getElementById("cart-preview");
+        preview.style.display =
+          preview.style.display === "block" ? "none" : "block";
+      }
 
-  <script src="/Css/js/script.js"></script>
-</body>
+      // Optional: close preview when clicking outside
+      document.addEventListener("click", function (e) {
+        const preview = document.getElementById("cart-preview");
+        const cartIcon = document.querySelector(".cart-floating");
+        if (!preview.contains(e.target) && !cartIcon.contains(e.target)) {
+          preview.style.display = "none";
+        }
+      });
+    </script>
+
+    <script src="script.js"></script>
+  </body>
 </html>
