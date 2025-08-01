@@ -160,9 +160,9 @@ nav a {
 }
 
 /* Responsive Fix */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .products {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(2,1fr);
   }
 
   .product img {
@@ -183,7 +183,7 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
   .products {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(2,1fr);
   }
 
   .product img {
@@ -318,7 +318,7 @@ body {
 /* Responsive Design */
 @media (max-width: 600px) {
   .products {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(2,1fr);
   }
 
   .product img {

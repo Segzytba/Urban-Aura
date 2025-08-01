@@ -3,13 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Urban Aura</title>
+    <title>Urban Aura - Premium Streetwear</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <nav class="nav">
+      <div class="nav-container">
+        <h1>URBAN AURA</h1>
+        <div>
+          <a href="index.html">Home</a>
+          <a href="shop.html">Shop</a>
+          <a href="Contact.html">Contact</a>
+          <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-text">
+        <h2>Premium Urban Streetwear</h2>
+        <p>Discover your unique style with our exclusive collection</p>
+        <a href="shop.html" class="cta-button">Shop Now</a>
+      </div>
+    </section>
+
     <!-- Floating Cart Icon -->
-    <div class="cart-floating" onclick="toggleCartPreview()">
-      🛒 <span id="cart-count">0</span>
+    <div class="cart-floating" id="cart-floating">
+      <span id="cart-icon-count">0</span>
     </div>
 
     <!-- Optional: Mini Cart Preview -->
@@ -21,29 +41,6 @@
       </p>
       <a href="cart.html" class="go-to-cart">Go to Cart</a>
     </div>
-
-    <header>
-      <h1>Urban Aura</h1>
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="shop.html">Shop</a>
-
-        <a href="contact.html">Contact</a>
-        <a href="cart.html">Cart</a>
-        <a href="checkout.html">Checkout</a>
-      </nav>
-    </header>
-
-    <section class="hero">
-      <img src="images/URBAN AURA.jpg" alt="URBAN AURA" />
-      <div class="hero-text">
-        <h2>Discover Our Latest Collection</h2>
-        <p>Made with passion and culture.</p>
-        <a href="shop.html" class="btn">Shop Now</a>
-      </div>
-    </section>
-
-    <!-- Unique page content goes here -->
 
     <footer>
       <p>
