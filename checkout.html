@@ -3,42 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Complete your Urban Aura order securely with Paystack.">
   <title>Checkout - Urban Aura</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <style>
-    .checkout-container {
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-    }
-    .checkout-container h2 {
-      text-align: center;
-    }
-    form input, form textarea, form select {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-    }
-    .cart-summary {
-      margin-bottom: 20px;
-      background-color: #f8f8f8;
-      padding: 15px;
-    }
-    button {
-      padding: 12px;
-      width: 100%;
-      background-color: black;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d0d0d'/%3E%3Ctext x='50' y='70' font-size='58' font-family='Arial, sans-serif' font-weight='bold' fill='%23ff5722' text-anchor='middle'%3EU%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
   <!-- Floating Cart Icon -->
 <div class="cart-floating" onclick="toggleCartPreview()">
   🛒 <span id="cart-count">0</span>
+</div>
+
+<button type="button" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"></path></svg>
+</button>
+
+<div class="chat-widget">
+  <button type="button" class="chat-bubble" onclick="toggleChatWidget()" aria-label="Chat with us">
+    <svg viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg>
+  </button>
+  <div class="chat-preview" id="chat-preview">
+    <div class="chat-preview-header">
+      <span class="chat-avatar">UA</span>
+      <div>
+        <strong>Urban Aura</strong>
+        <span class="chat-subtitle">Typically replies within a few hours</span>
+      </div>
+      <button type="button" class="chat-preview-close" onclick="toggleChatWidget()" aria-label="Close chat">&times;</button>
+    </div>
+    <p class="chat-preview-message">Hi! 👋 Got a question about sizing, an order, or something you saw on our page? Message us and we'll get back to you.</p>
+    <a href="https://wa.link/ao2tmy" target="_blank" rel="noopener" class="chat-preview-cta">
+      <svg viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg>
+      Start Chat on WhatsApp
+    </a>
+  </div>
 </div>
 
 <!-- Optional: Mini Cart Preview -->
@@ -50,8 +48,16 @@
 </div>
 
   <header>
-    <h1>Urban Aura</h1>
-    <nav>
+    <div class="header-bar">
+      <a href="https://www.instagram.com/urbanaura.style?igsh=YjJ4aXJjNHd1dWk5&utm_source=qr" target="_blank" rel="noopener" class="header-social" aria-label="Urban Aura on Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+      <h1><a href="index.html" class="logo">Urban Aura</a></h1>
+      <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <nav class="nav" id="site-nav">
       <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
       <a href="cart.html">Cart</a>
@@ -69,24 +75,277 @@
     <form id="checkout-form">
       <input type="text" id="fullname" placeholder="Full Name" required />
       <input type="email" id="email" placeholder="Email Address" required />
-      <textarea id="address" placeholder="Delivery Address" required></textarea>
+      <textarea id="address" placeholder="Full Delivery Address" required></textarea>
       <input type="text" id="phone" placeholder="Phone Number" required />
 
-      <label for="state-select">State</label>
-      <select id="state-select" required>
-        <option value="">Select State</option>
-        <option value="Lagos">Lagos</option>
-        <option value="Ogun">Ogun</option>
-        <option value="Others">Others</option>
+      <label for="country-select">Country</label>
+      <select id="country-select">
+        <option value="Nigeria" selected>Nigeria</option>
+        <option value="Afghanistan">Afghanistan</option>
+        <option value="Albania">Albania</option>
+        <option value="Algeria">Algeria</option>
+        <option value="Andorra">Andorra</option>
+        <option value="Angola">Angola</option>
+        <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+        <option value="Argentina">Argentina</option>
+        <option value="Armenia">Armenia</option>
+        <option value="Australia">Australia</option>
+        <option value="Austria">Austria</option>
+        <option value="Azerbaijan">Azerbaijan</option>
+        <option value="Bahamas">Bahamas</option>
+        <option value="Bahrain">Bahrain</option>
+        <option value="Bangladesh">Bangladesh</option>
+        <option value="Barbados">Barbados</option>
+        <option value="Belarus">Belarus</option>
+        <option value="Belgium">Belgium</option>
+        <option value="Belize">Belize</option>
+        <option value="Benin">Benin</option>
+        <option value="Bhutan">Bhutan</option>
+        <option value="Bolivia">Bolivia</option>
+        <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+        <option value="Botswana">Botswana</option>
+        <option value="Brazil">Brazil</option>
+        <option value="Brunei">Brunei</option>
+        <option value="Bulgaria">Bulgaria</option>
+        <option value="Burkina Faso">Burkina Faso</option>
+        <option value="Burundi">Burundi</option>
+        <option value="Cabo Verde">Cabo Verde</option>
+        <option value="Cambodia">Cambodia</option>
+        <option value="Cameroon">Cameroon</option>
+        <option value="Canada">Canada</option>
+        <option value="Central African Republic">Central African Republic</option>
+        <option value="Chad">Chad</option>
+        <option value="Chile">Chile</option>
+        <option value="China">China</option>
+        <option value="Colombia">Colombia</option>
+        <option value="Comoros">Comoros</option>
+        <option value="Congo">Congo</option>
+        <option value="Costa Rica">Costa Rica</option>
+        <option value="Croatia">Croatia</option>
+        <option value="Cuba">Cuba</option>
+        <option value="Cyprus">Cyprus</option>
+        <option value="Czechia">Czechia</option>
+        <option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option>
+        <option value="Denmark">Denmark</option>
+        <option value="Djibouti">Djibouti</option>
+        <option value="Dominica">Dominica</option>
+        <option value="Dominican Republic">Dominican Republic</option>
+        <option value="Ecuador">Ecuador</option>
+        <option value="Egypt">Egypt</option>
+        <option value="El Salvador">El Salvador</option>
+        <option value="Equatorial Guinea">Equatorial Guinea</option>
+        <option value="Eritrea">Eritrea</option>
+        <option value="Estonia">Estonia</option>
+        <option value="Eswatini">Eswatini</option>
+        <option value="Ethiopia">Ethiopia</option>
+        <option value="Fiji">Fiji</option>
+        <option value="Finland">Finland</option>
+        <option value="France">France</option>
+        <option value="Gabon">Gabon</option>
+        <option value="Gambia">Gambia</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Germany">Germany</option>
+        <option value="Ghana">Ghana</option>
+        <option value="Greece">Greece</option>
+        <option value="Grenada">Grenada</option>
+        <option value="Guatemala">Guatemala</option>
+        <option value="Guinea">Guinea</option>
+        <option value="Guinea-Bissau">Guinea-Bissau</option>
+        <option value="Guyana">Guyana</option>
+        <option value="Haiti">Haiti</option>
+        <option value="Honduras">Honduras</option>
+        <option value="Hungary">Hungary</option>
+        <option value="Iceland">Iceland</option>
+        <option value="India">India</option>
+        <option value="Indonesia">Indonesia</option>
+        <option value="Iran">Iran</option>
+        <option value="Iraq">Iraq</option>
+        <option value="Ireland">Ireland</option>
+        <option value="Israel">Israel</option>
+        <option value="Italy">Italy</option>
+        <option value="Ivory Coast">Ivory Coast</option>
+        <option value="Jamaica">Jamaica</option>
+        <option value="Japan">Japan</option>
+        <option value="Jordan">Jordan</option>
+        <option value="Kazakhstan">Kazakhstan</option>
+        <option value="Kenya">Kenya</option>
+        <option value="Kiribati">Kiribati</option>
+        <option value="Kosovo">Kosovo</option>
+        <option value="Kuwait">Kuwait</option>
+        <option value="Kyrgyzstan">Kyrgyzstan</option>
+        <option value="Laos">Laos</option>
+        <option value="Latvia">Latvia</option>
+        <option value="Lebanon">Lebanon</option>
+        <option value="Lesotho">Lesotho</option>
+        <option value="Liberia">Liberia</option>
+        <option value="Libya">Libya</option>
+        <option value="Liechtenstein">Liechtenstein</option>
+        <option value="Lithuania">Lithuania</option>
+        <option value="Luxembourg">Luxembourg</option>
+        <option value="Madagascar">Madagascar</option>
+        <option value="Malawi">Malawi</option>
+        <option value="Malaysia">Malaysia</option>
+        <option value="Maldives">Maldives</option>
+        <option value="Mali">Mali</option>
+        <option value="Malta">Malta</option>
+        <option value="Marshall Islands">Marshall Islands</option>
+        <option value="Mauritania">Mauritania</option>
+        <option value="Mauritius">Mauritius</option>
+        <option value="Mexico">Mexico</option>
+        <option value="Micronesia">Micronesia</option>
+        <option value="Moldova">Moldova</option>
+        <option value="Monaco">Monaco</option>
+        <option value="Mongolia">Mongolia</option>
+        <option value="Montenegro">Montenegro</option>
+        <option value="Morocco">Morocco</option>
+        <option value="Mozambique">Mozambique</option>
+        <option value="Myanmar">Myanmar</option>
+        <option value="Namibia">Namibia</option>
+        <option value="Nauru">Nauru</option>
+        <option value="Nepal">Nepal</option>
+        <option value="Netherlands">Netherlands</option>
+        <option value="New Zealand">New Zealand</option>
+        <option value="Nicaragua">Nicaragua</option>
+        <option value="Niger">Niger</option>
+        <option value="North Korea">North Korea</option>
+        <option value="North Macedonia">North Macedonia</option>
+        <option value="Norway">Norway</option>
+        <option value="Oman">Oman</option>
+        <option value="Pakistan">Pakistan</option>
+        <option value="Palau">Palau</option>
+        <option value="Palestine">Palestine</option>
+        <option value="Panama">Panama</option>
+        <option value="Papua New Guinea">Papua New Guinea</option>
+        <option value="Paraguay">Paraguay</option>
+        <option value="Peru">Peru</option>
+        <option value="Philippines">Philippines</option>
+        <option value="Poland">Poland</option>
+        <option value="Portugal">Portugal</option>
+        <option value="Qatar">Qatar</option>
+        <option value="Romania">Romania</option>
+        <option value="Russia">Russia</option>
+        <option value="Rwanda">Rwanda</option>
+        <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+        <option value="Saint Lucia">Saint Lucia</option>
+        <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+        <option value="Samoa">Samoa</option>
+        <option value="San Marino">San Marino</option>
+        <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+        <option value="Saudi Arabia">Saudi Arabia</option>
+        <option value="Senegal">Senegal</option>
+        <option value="Serbia">Serbia</option>
+        <option value="Seychelles">Seychelles</option>
+        <option value="Sierra Leone">Sierra Leone</option>
+        <option value="Singapore">Singapore</option>
+        <option value="Slovakia">Slovakia</option>
+        <option value="Slovenia">Slovenia</option>
+        <option value="Solomon Islands">Solomon Islands</option>
+        <option value="Somalia">Somalia</option>
+        <option value="South Africa">South Africa</option>
+        <option value="South Korea">South Korea</option>
+        <option value="South Sudan">South Sudan</option>
+        <option value="Spain">Spain</option>
+        <option value="Sri Lanka">Sri Lanka</option>
+        <option value="Sudan">Sudan</option>
+        <option value="Suriname">Suriname</option>
+        <option value="Sweden">Sweden</option>
+        <option value="Switzerland">Switzerland</option>
+        <option value="Syria">Syria</option>
+        <option value="Taiwan">Taiwan</option>
+        <option value="Tajikistan">Tajikistan</option>
+        <option value="Tanzania">Tanzania</option>
+        <option value="Thailand">Thailand</option>
+        <option value="Timor-Leste">Timor-Leste</option>
+        <option value="Togo">Togo</option>
+        <option value="Tonga">Tonga</option>
+        <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+        <option value="Tunisia">Tunisia</option>
+        <option value="Turkey">Turkey</option>
+        <option value="Turkmenistan">Turkmenistan</option>
+        <option value="Tuvalu">Tuvalu</option>
+        <option value="Uganda">Uganda</option>
+        <option value="Ukraine">Ukraine</option>
+        <option value="United Arab Emirates">United Arab Emirates</option>
+        <option value="United Kingdom">United Kingdom</option>
+        <option value="United States">United States</option>
+        <option value="Uruguay">Uruguay</option>
+        <option value="Uzbekistan">Uzbekistan</option>
+        <option value="Vanuatu">Vanuatu</option>
+        <option value="Vatican City">Vatican City</option>
+        <option value="Venezuela">Venezuela</option>
+        <option value="Vietnam">Vietnam</option>
+        <option value="Yemen">Yemen</option>
+        <option value="Zambia">Zambia</option>
+        <option value="Zimbabwe">Zimbabwe</option>
       </select>
 
-      <button type="button" onclick="payWithPaystack()">Pay Now</button>
+      <div id="nigeria-state-group">
+        <label for="state-select">State</label>
+        <select id="state-select">
+          <option value="">Select State</option>
+          <option value="Abia">Abia</option>
+          <option value="Adamawa">Adamawa</option>
+          <option value="Akwa Ibom">Akwa Ibom</option>
+          <option value="Anambra">Anambra</option>
+          <option value="Bauchi">Bauchi</option>
+          <option value="Bayelsa">Bayelsa</option>
+          <option value="Benue">Benue</option>
+          <option value="Borno">Borno</option>
+          <option value="Cross River">Cross River</option>
+          <option value="Delta">Delta</option>
+          <option value="Ebonyi">Ebonyi</option>
+          <option value="Edo">Edo</option>
+          <option value="Ekiti">Ekiti</option>
+          <option value="Enugu">Enugu</option>
+          <option value="FCT - Abuja">FCT - Abuja</option>
+          <option value="Gombe">Gombe</option>
+          <option value="Imo">Imo</option>
+          <option value="Jigawa">Jigawa</option>
+          <option value="Kaduna">Kaduna</option>
+          <option value="Kano">Kano</option>
+          <option value="Katsina">Katsina</option>
+          <option value="Kebbi">Kebbi</option>
+          <option value="Kogi">Kogi</option>
+          <option value="Kwara">Kwara</option>
+          <option value="Lagos">Lagos</option>
+          <option value="Nasarawa">Nasarawa</option>
+          <option value="Niger">Niger</option>
+          <option value="Ogun">Ogun</option>
+          <option value="Ondo">Ondo</option>
+          <option value="Osun">Osun</option>
+          <option value="Oyo">Oyo</option>
+          <option value="Plateau">Plateau</option>
+          <option value="Rivers">Rivers</option>
+          <option value="Sokoto">Sokoto</option>
+          <option value="Taraba">Taraba</option>
+          <option value="Yobe">Yobe</option>
+          <option value="Zamfara">Zamfara</option>
+        </select>
+        <p class="checkout-shipping-note">We'll confirm delivery cost and delivery time with you directly (via WhatsApp or email) after your order.</p>
+      </div>
+
+      <div id="international-group" style="display:none;">
+        <input type="text" id="intl-state" placeholder="State">
+        <input type="text" id="intl-city" placeholder="City">
+        <p class="checkout-shipping-note">We'll confirm international shipping cost and delivery time with you directly (via WhatsApp or email) after your order.</p>
+      </div>
+
+      <button type="button" id="pay-btn" onclick="payWithPaystack()">Pay Now</button>
     </form>
   </div>
 
   <footer>
-    <p>&copy; 2023 Urban Aura. All rights reserved.</p>
-    <p><a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms & Conditions</a></p>
+    <p>Urban Aura Collections</p>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/urbanaura.style?igsh=YjJ4aXJjNHd1dWk5&utm_source=qr" target="_blank" rel="noopener" class="footer-social-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+        Instagram
+      </a>
+      <a href="https://wa.link/ao2tmy" target="_blank" rel="noopener" class="footer-social-link">
+        <svg viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg>
+        WhatsApp
+      </a>
+    </div>
   </footer>
 
   <!-- Paystack & EmailJS Scripts -->
@@ -99,21 +358,9 @@
   <script>
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartSummary = document.getElementById("cart-summary");
+    const payBtn = document.getElementById("pay-btn");
     let total = 0;
     let orderDetails = "";
-
-    if (cart.length === 0) {
-      cartSummary.innerHTML = "<p>Your cart is empty.</p>";
-    } else {
-      let html = "<h3>Order Summary</h3><ul>";
-      cart.forEach(item => {
-        html += `<li>${item.productName} - ₦${item.price.toLocaleString()}</li>`;
-        orderDetails += `📦 ${item.productName} - ₦${item.price.toLocaleString()}\n`;
-        total += item.price;
-      });
-      html += `</ul><p><strong>Total: ₦${total.toLocaleString()}</strong></p>`;
-      cartSummary.innerHTML = html;
-    }
 
     function calculatePaystackTotal(amountToReceive) {
       let fee = amountToReceive <= 2500 ? 0.015 * amountToReceive : 0.015 * amountToReceive + 100;
@@ -122,18 +369,85 @@
       return Math.ceil(gross);
     }
 
+    if (cart.length === 0) {
+      cartSummary.innerHTML = "<p>Your cart is empty. <a href=\"shop.html\">Go&nbsp;shopping&nbsp;&rarr;</a></p>";
+      payBtn.disabled = true;
+    } else {
+      let html = "<h3>Order Summary</h3><ul>";
+      cart.forEach(item => {
+        const qty = item.quantity || 1;
+        const size = item.size || 'M';
+        const lineTotal = item.price * qty;
+        const thumb = item.image
+          ? `<img class="summary-item-img" src="${item.image}" alt="${item.productName}">`
+          : `<div class="summary-item-img summary-item-img-placeholder">🧺</div>`;
+        html += `
+          <li class="summary-item">
+            ${thumb}
+            <div class="summary-item-info">
+              <span>${item.productName}</span>
+              <span class="summary-item-meta">Size: ${size} &middot; Qty: ${qty}</span>
+            </div>
+            <span class="summary-item-price">₦${lineTotal.toLocaleString()}</span>
+          </li>`;
+        orderDetails += `📦 ${item.productName} (${size}) x${qty} - ₦${lineTotal.toLocaleString()}\n`;
+        total += lineTotal;
+      });
+      html += `</ul>`;
+
+      const totalWithFee = calculatePaystackTotal(total);
+      const fee = totalWithFee - total;
+      html += `
+        <div class="summary-totals">
+          <p><span>Subtotal</span><span>₦${total.toLocaleString()}</span></p>
+          <p><span>Card processing fee</span><span>₦${fee.toLocaleString()}</span></p>
+          <p class="summary-grand-total"><strong>Total to pay</strong><strong>₦${totalWithFee.toLocaleString()}</strong></p>
+        </div>`;
+      cartSummary.innerHTML = html;
+    }
+
+    const countrySelect = document.getElementById("country-select");
+    const nigeriaStateGroup = document.getElementById("nigeria-state-group");
+    const internationalGroup = document.getElementById("international-group");
+    const stateSelect = document.getElementById("state-select");
+    const intlStateInput = document.getElementById("intl-state");
+    const intlCityInput = document.getElementById("intl-city");
+
+    function updateCountryFields() {
+      const isNigeria = countrySelect.value === "Nigeria";
+      nigeriaStateGroup.style.display = isNigeria ? "block" : "none";
+      internationalGroup.style.display = isNigeria ? "none" : "block";
+    }
+
+    countrySelect.addEventListener("change", updateCountryFields);
+    updateCountryFields();
+
     function payWithPaystack() {
       const fullName = document.getElementById("fullname").value;
       const email = document.getElementById("email").value;
       const phone = document.getElementById("phone").value;
       const address = document.getElementById("address").value;
+      const isNigeria = countrySelect.value === "Nigeria";
+      const country = countrySelect.value;
+      const state = isNigeria
+        ? stateSelect.value
+        : [intlCityInput.value.trim(), intlStateInput.value.trim()].filter(Boolean).join(", ");
 
-      if (!fullName || !email || !phone || !address) {
-        alert("Please fill in all fields.");
+      const locationFilled = isNigeria
+        ? !!stateSelect.value
+        : !!(intlStateInput.value.trim() && intlCityInput.value.trim());
+
+      if (!fullName || !email || !phone || !address || !locationFilled) {
+        showToast("Please fill in all fields.", "error");
         return;
       }
 
       const totalWithFee = calculatePaystackTotal(total);
+      const fee = totalWithFee - total;
+
+      payBtn.disabled = true;
+      payBtn.classList.add("btn-loading");
+      payBtn.textContent = "Processing...";
 
       const handler = PaystackPop.setup({
         key: "pk_live_ebd999546b1f50c20991b7b33fbb4de8ff2a18ab", // Live key
@@ -145,11 +459,26 @@
           custom_fields: [
             { display_name: "Customer Name", variable_name: "customer_name", value: fullName },
             { display_name: "Phone Number", variable_name: "phone", value: phone },
-            { display_name: "Address", variable_name: "address", value: address }
-          ]
+            { display_name: "Address", variable_name: "address", value: address },
+            { display_name: "Country", variable_name: "country", value: country },
+            { display_name: "State", variable_name: "state", value: state }
+          ],
+          // Read by the Paystack webhook (supabase/functions/paystack-webhook)
+          // to write the real order record - this is what makes the order
+          // exist independently of this browser tab staying open.
+          full_name: fullName,
+          phone: phone,
+          address: address,
+          country: country,
+          state: state,
+          items: cart,
+          subtotal: total,
+          fee: fee
         },
         callback: function (response) {
-          // Send email using EmailJS
+          // The order is already recorded server-side by the Paystack
+          // webhook the instant payment clears - this email is just a
+          // courtesy copy, so its failure shouldn't block the success flow.
           emailjs.send("service_29moyrs", "template_38x21c9", {
             fullname: fullName,
             email: email,
@@ -158,62 +487,28 @@
             amount: totalWithFee.toLocaleString(),
             reference: response.reference,
             order: orderDetails
-          }).then(function () {
-            alert("✅ Payment successful & order placed!");
-            localStorage.removeItem("cart");
-            window.location.href = "index.html";
-          }, function (error) {
-            alert("Payment succeeded but email failed: " + error.text);
+          }).catch(function (error) {
+            console.error("Order confirmation email failed:", error);
           });
+
+          showToast("Payment successful & order placed!");
+          localStorage.removeItem("cart");
+          setTimeout(() => window.location.href = "index.html", 1500);
         },
         onClose: function () {
-          alert("❌ Payment was cancelled.");
+          showToast("Payment was cancelled.", "error");
+          payBtn.disabled = false;
+          payBtn.classList.remove("btn-loading");
+          payBtn.textContent = "Pay Now";
         }
       });
 
       handler.openIframe();
     }
   </script>
-  <script>
-  // Display item count
-  const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-  document.getElementById('cart-count').textContent = cartItems.length;
-
-  // Populate mini cart
-  const previewList = document.getElementById('preview-items');
-  const previewTotal = document.getElementById('preview-total');
-  let previewCartTotal = 0;
-
-  cartItems.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = `${item.productName} - ₦${item.price.toLocaleString()}`;
-    previewList.appendChild(li);
-    previewCartTotal += item.price;
-  });
-
-  previewTotal.textContent = previewCartTotal.toLocaleString();
-
-  // Toggle cart preview
-  function toggleCartPreview() {
-    const preview = document.getElementById('cart-preview');
-    preview.style.display = preview.style.display === 'block' ? 'none' : 'block';
-  }
-
-  // Optional: close preview when clicking outside
-  document.addEventListener('click', function(e) {
-    const preview = document.getElementById('cart-preview');
-    const cartIcon = document.querySelector('.cart-floating');
-    if (!preview.contains(e.target) && !cartIcon.contains(e.target)) {
-      preview.style.display = 'none';
-    }
-  });
-</script>
-  <script src="css/js/script.js"></script>
-</div>
+  <script src="assets/js/script.js"></script>
 </body>
 </html>
-
-<!-- This is the end of the checkout.html file -->
 
 
 

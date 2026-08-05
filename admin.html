@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin - Urban Aura</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d0d0d'/%3E%3Ctext x='50' y='70' font-size='58' font-family='Arial, sans-serif' font-weight='bold' fill='%23ff5722' text-anchor='middle'%3EU%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://ntolfldyyipmwhnhivdq.supabase.co">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="header-bar">
+      <h1><a href="index.html" class="logo">Urban Aura Admin</a></h1>
+    </div>
+  </header>
+
+  <div id="login-view" class="admin-login">
+    <form id="login-form" class="admin-login-form">
+      <h2>Admin Log In</h2>
+      <input type="email" id="admin-email" placeholder="Email" autocomplete="username" required>
+      <input type="password" id="admin-password" placeholder="Password" autocomplete="current-password" required>
+      <button type="submit" id="login-btn">Log In</button>
+      <a href="#" id="forgot-password-link" class="admin-forgot-link">Forgot password?</a>
+    </form>
+  </div>
+
+  <div id="reset-request-view" class="admin-login" style="display:none;">
+    <form id="reset-request-form" class="admin-login-form">
+      <h2>Reset Password</h2>
+      <p class="admin-form-hint">Enter your admin email and we'll send a link to set a new password.</p>
+      <input type="email" id="reset-email" placeholder="Email" autocomplete="username" required>
+      <button type="submit" id="reset-request-btn">Send Reset Link</button>
+      <a href="#" id="back-to-login-link" class="admin-forgot-link">Back to log in</a>
+    </form>
+  </div>
+
+  <div id="reset-password-view" class="admin-login" style="display:none;">
+    <form id="reset-password-form" class="admin-login-form">
+      <h2>Set New Password</h2>
+      <input type="password" id="new-admin-password" placeholder="New password" autocomplete="new-password" required minlength="6">
+      <input type="password" id="confirm-admin-password" placeholder="Confirm new password" autocomplete="new-password" required minlength="6">
+      <button type="submit" id="set-password-btn">Set New Password</button>
+    </form>
+  </div>
+
+  <div id="dashboard-view" class="admin-dashboard" style="display:none;">
+    <div class="admin-bar">
+      <span id="admin-email-label" class="admin-email-label"></span>
+      <button type="button" id="logout-btn" class="btn">Log Out</button>
+    </div>
+
+    <section class="admin-section">
+      <h2>Add Product</h2>
+      <form id="add-product-form" class="admin-add-form">
+        <input type="text" id="new-name" placeholder="Product name" required>
+        <input type="number" id="new-price" placeholder="Price (e.g. 22000)" min="0" required>
+        <input type="number" id="new-stock" placeholder="Stock" min="0" required>
+        <input type="file" id="new-image-file" accept="image/*" required>
+        <button type="submit" id="add-product-btn" class="btn btn-primary">Add Product</button>
+      </form>
+    </section>
+
+    <section class="admin-section">
+      <h2>Products</h2>
+      <div id="admin-products-list" class="admin-products-list"></div>
+    </section>
+
+    <section class="admin-section">
+      <h2>Recent Orders</h2>
+      <div id="admin-orders-list" class="admin-orders-list"></div>
+    </section>
+  </div>
+
+  <!-- Reusable confirm dialog: used for adding and deleting products -->
+  <div id="confirm-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <p id="confirm-modal-message"></p>
+      <div class="modal-actions">
+        <button type="button" id="confirm-modal-cancel" class="btn">Cancel</button>
+        <button type="button" id="confirm-modal-ok" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit product dialog -->
+  <div id="edit-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <h3>Edit Product</h3>
+      <form id="edit-product-form">
+        <input type="hidden" id="edit-id">
+        <input type="text" id="edit-name" placeholder="Product name" required>
+        <input type="number" id="edit-price" placeholder="Price" min="0" required>
+        <input type="number" id="edit-stock" placeholder="Stock" min="0" required>
+        <label class="modal-file-label" for="edit-image-file">Replace photo (optional)</label>
+        <input type="file" id="edit-image-file" accept="image/*">
+        <div class="modal-actions">
+          <button type="button" id="edit-modal-cancel" class="btn">Cancel</button>
+          <button type="submit" id="edit-modal-save" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="assets/js/supabase-config.js"></script>
+  <script src="assets/js/script.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>

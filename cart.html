@@ -3,13 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Review your Urban Aura shopping cart before checkout.">
   <title>Shopping Cart - Urban Aura</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d0d0d'/%3E%3Ctext x='50' y='70' font-size='58' font-family='Arial, sans-serif' font-weight='bold' fill='%23ff5722' text-anchor='middle'%3EU%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
 <!-- Floating Cart Icon -->
 <div class="cart-floating" onclick="toggleCartPreview()">
   🛒 <span id="cart-count">0</span>
+</div>
+
+<button type="button" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"></path></svg>
+</button>
+
+<div class="chat-widget">
+  <button type="button" class="chat-bubble" onclick="toggleChatWidget()" aria-label="Chat with us">
+    <svg viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg>
+  </button>
+  <div class="chat-preview" id="chat-preview">
+    <div class="chat-preview-header">
+      <span class="chat-avatar">UA</span>
+      <div>
+        <strong>Urban Aura</strong>
+        <span class="chat-subtitle">Typically replies within a few hours</span>
+      </div>
+      <button type="button" class="chat-preview-close" onclick="toggleChatWidget()" aria-label="Close chat">&times;</button>
+    </div>
+    <p class="chat-preview-message">Hi! 👋 Got a question about sizing, an order, or something you saw on our page? Message us and we'll get back to you.</p>
+    <a href="https://wa.link/ao2tmy" target="_blank" rel="noopener" class="chat-preview-cta">
+      <svg viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg>
+      Start Chat on WhatsApp
+    </a>
+  </div>
 </div>
 
 <!-- Optional: Mini Cart Preview -->
@@ -22,8 +49,16 @@
 
 
   <header class="site-header">
-    <h1>Urban Aura</h1>
-    <nav class="nav">
+    <div class="header-bar">
+      <a href="https://www.instagram.com/urbanaura.style?igsh=YjJ4aXJjNHd1dWk5&utm_source=qr" target="_blank" rel="noopener" class="header-social" aria-label="Urban Aura on Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+      <h1><a href="index.html" class="logo">Urban Aura</a></h1>
+      <button class="nav-toggle" onclick="toggleNav()" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <nav class="nav" id="site-nav">
       <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
       <a href="cart.html">Cart</a>
@@ -32,94 +67,60 @@
   </header>
 
   <main class="cart-page">
-    <div class="container">
+    <div class="shop-intro">
       <h2>Your Shopping Cart</h2>
+      <p id="cart-item-count" class="cart-item-count"></p>
+    </div>
+
+    <div class="container">
       <div id="cart-items" class="cart-items">
+
         <!-- Cart items will be loaded here -->
+
       </div>
 
       <div class="cart-actions">
         <button class="btn" onclick="window.location.href='shop.html'">Continue Shopping</button>
-        <button class="btn btn-primary" onclick="window.location.href='checkout.html'">Checkout</button>
-        <button class="btn btn-danger" onclick="clearCart()">Clear Cart</button>
+        <button class="btn btn-primary requires-items" onclick="window.location.href='checkout.html'">Checkout</button>
+        <button class="btn btn-danger requires-items" onclick="clearCart()">Clear Cart</button>
+      </div>
+
+      <div class="cart-trust-strip">
+        <div class="trust-item">
+          <span class="icon-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 5 3 8.5 7 10 4-1.5 7-5 7-10V6l-7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>
+          </span>
+          <div>
+            <strong>Secure Payment</strong>
+            <span>Powered by Paystack</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <span class="icon-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="13" height="9"></rect><path d="M14 10h4l3 3v3h-7z"></path><circle cx="6" cy="18" r="1.6"></circle><circle cx="17" cy="18" r="1.6"></circle></svg>
+          </span>
+          <div>
+            <strong>Fast Delivery</strong>
+            <span>Nationwide shipping</span>
+          </div>
+        </div>
       </div>
     </div>
   </main>
-
-  <footer class="site-footer">
-    <p>&copy; 2025 Urban Aura Collections | Follow us:
-      <a href="https://www.instagram.com/urbanaura.style?igsh=YjJ4aXJjNHd1dWk5&utm_source=qr">Instagram</a> |
-      <a href="https://wa.link/ao2tmy">WhatsApp</a>
-    </p>
+ <footer>
+    <p>Urban Aura Collections</p>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/urbanaura.style?igsh=YjJ4aXJjNHd1dWk5&utm_source=qr" target="_blank" rel="noopener" class="footer-social-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+        Instagram
+      </a>
+      <a href="https://wa.link/ao2tmy" target="_blank" rel="noopener" class="footer-social-link">
+        <svg viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg>
+        WhatsApp
+      </a>
+    </div>
   </footer>
 
-  <script>
-    // Load cart from localStorage
-    const cartDiv = document.getElementById('cart-items');
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    function renderCart() {
-      if (cart.length === 0) {
-        cartDiv.innerHTML = "<p>Your cart is empty.</p>";
-        return;
-      }
-
-      let html = "<ul class='cart-list'>";
-      let total = 0;
-
-      cart.forEach(item => {
-        html += `<li class='cart-item'>${item.productName} - ₦${item.price.toLocaleString()}</li>`;
-        total += item.price;
-      });
-
-      html += `</ul><p class='cart-total'><strong>Total: ₦${total.toLocaleString()}</strong></p>`;
-      cartDiv.innerHTML = html;
-    }
-
-    function clearCart() {
-      localStorage.removeItem("cart");
-      renderCart();
-      alert("Your cart has been cleared.");
-    }
-
-    document.addEventListener("DOMContentLoaded", renderCart);
-  </script>
-
-<script>
-  // Display item count
-  const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-  document.getElementById('cart-count').textContent = cartItems.length;
-
-  // Populate mini cart
-  const previewList = document.getElementById('preview-items');
-  const previewTotal = document.getElementById('preview-total');
-  let total = 0;
-
-  cartItems.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = `${item.productName} - ₦${item.price.toLocaleString()}`;
-    previewList.appendChild(li);
-    total += item.price;
-  });
-
-  previewTotal.textContent = total.toLocaleString();
-
-  // Toggle cart preview
-  function toggleCartPreview() {
-    const preview = document.getElementById('cart-preview');
-    preview.style.display = preview.style.display === 'block' ? 'none' : 'block';
-  }
-
-  // Optional: close preview when clicking outside
-  document.addEventListener('click', function(e) {
-    const preview = document.getElementById('cart-preview');
-    const cartIcon = document.querySelector('.cart-floating');
-    if (!preview.contains(e.target) && !cartIcon.contains(e.target)) {
-      preview.style.display = 'none';
-    }
-  });
-</script>
-</main>
-  <script src="Css/js/script.js"></script>
+  <script src="assets/js/script.js"></script>
 </body>
 </html>

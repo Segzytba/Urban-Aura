@@ -1,0 +1,107 @@
+// Paystack webhook: runs on Supabase's servers, not the customer's browser.
+// Paystack calls this directly the instant a payment clears, so an order
+// gets recorded even if the customer's connection drops or they close the
+// tab right after paying.
+//
+// Deploy this via the Supabase Dashboard -> Edge Functions (paste this file's
+// contents in there). Needs one secret set in that function's settings:
+//   PAYSTACK_SECRET_KEY - from Paystack Dashboard -> Settings -> API Keys & Webhooks
+// (SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are provided automatically by
+// Supabase for every Edge Function - no setup needed for those two.)
+
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const PAYSTACK_SECRET_KEY = Deno.env.get('PAYSTACK_SECRET_KEY')!;
+const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+
+async function isFromPaystack(rawBody: string, signature: string | null): Promise<boolean> {
+  if (!signature) return false;
+
+  const key = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(PAYSTACK_SECRET_KEY),
+    { name: 'HMAC', hash: 'SHA-512' },
+    false,
+    ['sign']
+  );
+  const sigBuffer = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(rawBody));
+  const computed = Array.from(new Uint8Array(sigBuffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+
+  return computed === signature;
+}
+
+Deno.serve(async (req) => {
+  if (req.method !== 'POST') {
+    return new Response('Method not allowed', { status: 405 });
+  }
+
+  const rawBody = await req.text();
+  const signature = req.headers.get('x-paystack-signature');
+
+  if (!(await isFromPaystack(rawBody, signature))) {
+    return new Response('Invalid signature', { status: 401 });
+  }
+
+  const event = JSON.parse(rawBody);
+
+  if (event.event !== 'charge.success') {
+    return new Response('Ignored', { status: 200 });
+  }
+
+  const data = event.data;
+  const metadata = data.metadata || {};
+  const items = Array.isArray(metadata.items) ? metadata.items : [];
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+  // Paystack may retry the same webhook - don't create a duplicate order.
+  const { data: existing } = await supabase
+    .from('orders')
+    .select('id')
+    .eq('reference', data.reference)
+    .maybeSingle();
+
+  if (existing) {
+    return new Response('Already processed', { status: 200 });
+  }
+
+  const { error: insertError } = await supabase.from('orders').insert({
+    reference: data.reference,
+    customer_name: metadata.full_name || '',
+    email: data.customer?.email || '',
+    phone: metadata.phone || '',
+    address: metadata.address || '',
+    country: metadata.country || 'Nigeria',
+    state: metadata.state || '',
+    items,
+    subtotal: metadata.subtotal || 0,
+    fee: metadata.fee || 0,
+    total: Math.round(data.amount / 100),
+    status: 'paid',
+  });
+
+  if (insertError) {
+    console.error('Failed to insert order:', insertError);
+    return new Response('Failed to save order', { status: 500 });
+  }
+
+  // Decrement stock for each item purchased.
+  for (const item of items) {
+    const qty = Number(item.quantity) || 1;
+    const { data: product } = await supabase
+      .from('products')
+      .select('id, stock')
+      .eq('name', item.productName)
+      .maybeSingle();
+
+    if (product) {
+      const newStock = Math.max(0, product.stock - qty);
+      await supabase.from('products').update({ stock: newStock }).eq('id', product.id);
+    }
+  }
+
+  return new Response('OK', { status: 200 });
+});
