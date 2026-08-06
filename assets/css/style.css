@@ -850,8 +850,9 @@ footer > p > div {
 .hero-slide {
   position: absolute;
   inset: 0;
-  background-size: cover;
-  background-position: center 18%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
   opacity: 0;
   transition: opacity 1s ease;
 }
