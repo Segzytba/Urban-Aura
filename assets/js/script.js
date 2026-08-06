@@ -449,6 +449,17 @@ function initHeroSlideshow() {
   }, 3200);
 }
 
+// ---------- Full-screen hero sizing ----------
+// The hero is styled as `calc(100vh - var(--header-h))` so it fills exactly
+// what's left below the header. --header-h has a static CSS fallback, but
+// the header's real height varies slightly by breakpoint (font/padding
+// changes), so we measure it directly here for a pixel-perfect fit.
+function syncHeaderHeightVar() {
+  const header = document.querySelector('header');
+  if (!header) return;
+  document.documentElement.style.setProperty('--header-h', `${header.offsetHeight}px`);
+}
+
 // ---------- Back to top ----------
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -549,6 +560,8 @@ document.addEventListener('DOMContentLoaded', function () {
   highlightActiveNavLink();
   initScrollReveal();
   initHeroSlideshow();
+  syncHeaderHeightVar();
+  window.addEventListener('resize', syncHeaderHeightVar);
 
   const copyrightYear = document.getElementById('copyright-year');
   if (copyrightYear) copyrightYear.textContent = new Date().getFullYear();

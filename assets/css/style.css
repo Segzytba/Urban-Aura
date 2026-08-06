@@ -831,22 +831,14 @@ footer > p > div {
   position: relative;
   text-align: center;
   color: #fff;
-  min-height: 520px;
+  height: calc(100vh - var(--header-h));
+  min-height: 480px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
-  max-width: 1600px;
-  margin: 0 auto;
-}
-
-@media (min-width: 700px) {
-  .hero {
-    min-height: 0;
-    height: clamp(560px, 55vw, 820px);
-  }
 }
 
 .hero-slides {
