@@ -2059,21 +2059,23 @@ button:active, .btn:active {
     position: fixed;
     top: 0;
     right: 0;
-    height: 100vh;
+    height: auto;
+    max-height: 100vh;
     width: min(280px, 80vw);
     background: var(--surface);
     border-left: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    border-bottom-left-radius: 12px;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     padding: 88px 24px 24px;
     margin: 0;
-    max-height: none;
     overflow-y: auto;
     opacity: 1;
     transform: translateX(100%);
     transition: transform 0.3s ease;
-    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.45);
+    box-shadow: -8px 8px 24px rgba(0, 0, 0, 0.45);
     z-index: 1150;
   }
 
