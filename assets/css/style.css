@@ -2047,6 +2047,7 @@ button:active, .btn:active {
     position: fixed;
     top: 12px;
     right: 16px;
+    transform: none;
     z-index: 1200;
   }
 
