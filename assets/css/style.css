@@ -1383,6 +1383,12 @@ footer p {
   margin: 0 0 4px;
 }
 
+.footer-copyright {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 10px 0 0 !important;
+}
+
 .footer-social {
   display: flex;
   justify-content: center;

@@ -468,6 +468,9 @@ document.addEventListener('DOMContentLoaded', function () {
   initScrollReveal();
   initHeroSlideshow();
 
+  const copyrightYear = document.getElementById('copyright-year');
+  if (copyrightYear) copyrightYear.textContent = new Date().getFullYear();
+
   document.querySelectorAll('#site-nav a').forEach(link => {
     link.addEventListener('click', closeNav);
   });
