@@ -122,6 +122,12 @@ header h1 a, header h1 .logo {
   display: block;
 }
 
+.header-social img {
+  width: 22px;
+  height: auto;
+  display: block;
+}
+
 .nav-toggle {
   display: none;
   position: absolute;
