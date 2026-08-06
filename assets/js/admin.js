@@ -8,6 +8,33 @@ function hideAllAuthViews() {
   document.getElementById('reset-request-view').style.display = 'none';
   document.getElementById('reset-password-view').style.display = 'none';
   document.getElementById('dashboard-view').style.display = 'none';
+  stopInactivityWatcher();
+}
+
+// ---------- Auto-logout after inactivity ----------
+const INACTIVITY_LIMIT_MS = 15 * 60 * 1000; // 15 minutes
+const ACTIVITY_EVENTS = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+let inactivityTimer = null;
+
+async function logOutForInactivity() {
+  await supabaseClient.auth.signOut();
+  showToast("You've been logged out due to inactivity", 'error');
+}
+
+function resetInactivityTimer() {
+  if (inactivityTimer) clearTimeout(inactivityTimer);
+  inactivityTimer = setTimeout(logOutForInactivity, INACTIVITY_LIMIT_MS);
+}
+
+function startInactivityWatcher() {
+  ACTIVITY_EVENTS.forEach(evt => document.addEventListener(evt, resetInactivityTimer));
+  resetInactivityTimer();
+}
+
+function stopInactivityWatcher() {
+  if (inactivityTimer) clearTimeout(inactivityTimer);
+  inactivityTimer = null;
+  ACTIVITY_EVENTS.forEach(evt => document.removeEventListener(evt, resetInactivityTimer));
 }
 
 function showLoginView() {
@@ -31,6 +58,7 @@ function showDashboardView(email) {
   document.getElementById('admin-email-label').textContent = email || '';
   loadProducts();
   loadOrders();
+  startInactivityWatcher();
 }
 
 // Single source of truth for which view is shown, driven entirely by
