@@ -18,7 +18,7 @@ function renderProductCard(p) {
   if (stock <= 0) {
     return `
       <div class="product sold-out" data-name="${name}" data-price="${p.price}">
-        <img src="${p.image}" alt="${name}">
+        <img src="${p.image}" alt="${name}" loading="lazy">
         <span class="sold-out-badge">Sold Out</span>
         <h3>${name.toUpperCase()}</h3>
         <p>${priceLabel}</p>
@@ -28,7 +28,7 @@ function renderProductCard(p) {
 
   return `
     <div class="product" data-name="${name}" data-price="${p.price}" data-stock="${stock}">
-      <img src="${p.image}" alt="${name}">
+      <img src="${p.image}" alt="${name}" loading="lazy">
       <h3>${name.toUpperCase()}</h3>
       <p>${priceLabel}</p>
       <div class="product-options">
