@@ -11,7 +11,8 @@ async function loadProducts() {
     .order('created_at', { ascending: true });
 
   if (error) {
-    list.innerHTML = '<p class="empty-state">Failed to load products.</p>';
+    console.error('Failed to load products:', error);
+    list.innerHTML = `<p class="empty-state">Failed to load products: ${escapeHtml(error.message)}</p>`;
     return;
   }
 

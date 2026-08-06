@@ -10,7 +10,8 @@ async function loadOrders() {
     .limit(50);
 
   if (error) {
-    list.innerHTML = '<p class="empty-state">Failed to load orders.</p>';
+    console.error('Failed to load orders:', error);
+    list.innerHTML = `<p class="empty-state">Failed to load orders: ${escapeHtml(error.message)}</p>`;
     return;
   }
 
