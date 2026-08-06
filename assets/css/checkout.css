@@ -156,6 +156,28 @@
   color: var(--text-muted);
 }
 
+.phone-input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.phone-input-row select,
+.phone-input-row input {
+  margin-bottom: 0;
+}
+
+.phone-input-row select {
+  flex: 0 0 auto;
+  width: 40%;
+  min-width: 0;
+}
+
+.phone-input-row input {
+  flex: 1;
+  min-width: 0;
+}
+
 .checkout-container input:focus,
 .checkout-container textarea:focus,
 .checkout-container select:focus {
