@@ -101,10 +101,6 @@ nav.nav, .nav {
   flex-wrap: wrap;
 }
 
-.nav-drawer-header {
-  display: none;
-}
-
 nav a, .nav a {
   color: var(--text);
   margin: 0 12px;
@@ -175,35 +171,6 @@ nav a:hover, .nav a:hover {
 
   .nav-backdrop.show {
     display: block;
-  }
-
-  .nav-drawer-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    padding-bottom: 14px;
-    margin-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text-muted);
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-  }
-
-  .nav-drawer-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    background: var(--accent);
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
   }
 
   nav a, .nav a {
