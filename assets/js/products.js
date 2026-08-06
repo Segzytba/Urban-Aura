@@ -38,7 +38,7 @@ function renderProductCard(p) {
         </select>
         <div class="qty-stepper">
           <button type="button" onclick="stepQty(this, -1)" aria-label="Decrease quantity">&minus;</button>
-          <input type="number" class="qty-input" value="1" min="1" max="${stock}" inputmode="numeric">
+          <input type="number" class="qty-input" value="1" min="1" max="${stock}" inputmode="numeric" aria-label="Quantity">
           <button type="button" onclick="stepQty(this, 1)" aria-label="Increase quantity">+</button>
         </div>
       </div>
@@ -80,7 +80,7 @@ function renderProductDetail(p) {
           </select>
           <div class="qty-stepper">
             <button type="button" onclick="stepQty(this, -1)" aria-label="Decrease quantity">&minus;</button>
-            <input type="number" class="qty-input" value="1" min="1" max="${stock}" inputmode="numeric">
+            <input type="number" class="qty-input" value="1" min="1" max="${stock}" inputmode="numeric" aria-label="Quantity">
             <button type="button" onclick="stepQty(this, 1)" aria-label="Increase quantity">+</button>
           </div>
         </div>

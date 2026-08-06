@@ -31,7 +31,7 @@ async function loadProducts() {
         <span>&#8358;${Number(p.price).toLocaleString()}</span>
       </div>
       <div class="admin-product-stock">
-        <input type="number" min="0" value="${p.stock}" class="admin-stock-input" data-id="${p.id}">
+        <input type="number" min="0" value="${p.stock}" class="admin-stock-input" data-id="${p.id}" aria-label="Stock for ${escapeHtml(p.name)}">
         <button type="button" class="btn" onclick="saveStock('${p.id}', this)">Save</button>
       </div>
       <button type="button" class="btn admin-edit-btn" onclick="openEditModalById('${p.id}')">Edit</button>

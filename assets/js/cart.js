@@ -157,7 +157,7 @@ function renderCartPreview() {
     cart.forEach(item => {
       const li = document.createElement('li');
       const qty = item.quantity || 1;
-      const thumb = item.image ? `<img src="${item.image}" alt="">` : '';
+      const thumb = item.image ? `<img src="${item.image}" alt="${item.productName}">` : '';
       li.innerHTML = `${thumb}<span>${item.productName} (${item.size || 'M'}) x${qty} - ₦${(item.price * qty).toLocaleString()}</span>`;
       listEl.appendChild(li);
     });

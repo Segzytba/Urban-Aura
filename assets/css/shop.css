@@ -197,7 +197,6 @@
 
 .size-select:focus {
   border-color: var(--accent);
-  outline: none;
 }
 
 .qty-stepper {

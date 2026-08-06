@@ -26,8 +26,8 @@
   <div id="login-view" class="admin-login">
     <form id="login-form" class="admin-login-form">
       <h2>Admin Log In</h2>
-      <input type="email" id="admin-email" placeholder="Email" autocomplete="username" required>
-      <input type="password" id="admin-password" placeholder="Password" autocomplete="current-password" required>
+      <input type="email" id="admin-email" placeholder="Email" aria-label="Email" autocomplete="username" required>
+      <input type="password" id="admin-password" placeholder="Password" aria-label="Password" autocomplete="current-password" required>
       <button type="submit" id="login-btn">Log In</button>
       <a href="#" id="forgot-password-link" class="admin-forgot-link">Forgot password?</a>
     </form>
@@ -37,7 +37,7 @@
     <form id="reset-request-form" class="admin-login-form">
       <h2>Reset Password</h2>
       <p class="admin-form-hint">Enter your admin email and we'll send a link to set a new password.</p>
-      <input type="email" id="reset-email" placeholder="Email" autocomplete="username" required>
+      <input type="email" id="reset-email" placeholder="Email" aria-label="Email" autocomplete="username" required>
       <button type="submit" id="reset-request-btn">Send Reset Link</button>
       <a href="#" id="back-to-login-link" class="admin-forgot-link">Back to log in</a>
     </form>
@@ -46,8 +46,8 @@
   <div id="reset-password-view" class="admin-login" style="display:none;">
     <form id="reset-password-form" class="admin-login-form">
       <h2>Set New Password</h2>
-      <input type="password" id="new-admin-password" placeholder="New password" autocomplete="new-password" required minlength="6">
-      <input type="password" id="confirm-admin-password" placeholder="Confirm new password" autocomplete="new-password" required minlength="6">
+      <input type="password" id="new-admin-password" placeholder="New password" aria-label="New password" autocomplete="new-password" required minlength="6">
+      <input type="password" id="confirm-admin-password" placeholder="Confirm new password" aria-label="Confirm new password" autocomplete="new-password" required minlength="6">
       <button type="submit" id="set-password-btn">Set New Password</button>
     </form>
   </div>
@@ -61,10 +61,10 @@
     <section class="admin-section">
       <h2>Add Product</h2>
       <form id="add-product-form" class="admin-add-form">
-        <input type="text" id="new-name" placeholder="Product name" required>
-        <input type="number" id="new-price" placeholder="Price (e.g. 22000)" min="0" required>
-        <input type="number" id="new-stock" placeholder="Stock" min="0" required>
-        <input type="file" id="new-image-file" accept="image/*" required>
+        <input type="text" id="new-name" placeholder="Product name" aria-label="Product name" required>
+        <input type="number" id="new-price" placeholder="Price (e.g. 22000)" aria-label="Price" min="0" required>
+        <input type="number" id="new-stock" placeholder="Stock" aria-label="Stock" min="0" required>
+        <input type="file" id="new-image-file" accept="image/*" aria-label="Product photo" required>
         <button type="submit" id="add-product-btn" class="btn btn-primary">Add Product</button>
       </form>
     </section>
@@ -97,9 +97,9 @@
       <h3>Edit Product</h3>
       <form id="edit-product-form">
         <input type="hidden" id="edit-id">
-        <input type="text" id="edit-name" placeholder="Product name" required>
-        <input type="number" id="edit-price" placeholder="Price" min="0" required>
-        <input type="number" id="edit-stock" placeholder="Stock" min="0" required>
+        <input type="text" id="edit-name" placeholder="Product name" aria-label="Product name" required>
+        <input type="number" id="edit-price" placeholder="Price" aria-label="Price" min="0" required>
+        <input type="number" id="edit-stock" placeholder="Stock" aria-label="Stock" min="0" required>
         <label class="modal-file-label" for="edit-image-file">Replace photo (optional)</label>
         <input type="file" id="edit-image-file" accept="image/*">
         <div class="modal-actions">

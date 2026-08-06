@@ -92,10 +92,10 @@
     </div>
 
     <form id="checkout-form">
-      <input type="text" id="fullname" placeholder="Full Name" required />
-      <input type="email" id="email" placeholder="Email Address" required />
-      <textarea id="address" placeholder="Full Delivery Address" required></textarea>
-      <input type="text" id="phone" placeholder="Phone Number" required />
+      <input type="text" id="fullname" placeholder="Full Name" aria-label="Full Name" required />
+      <input type="email" id="email" placeholder="Email Address" aria-label="Email Address" required />
+      <textarea id="address" placeholder="Full Delivery Address" aria-label="Full Delivery Address" required></textarea>
+      <input type="text" id="phone" placeholder="Phone Number" aria-label="Phone Number" required />
 
       <label for="country-select">Country</label>
       <select id="country-select">
@@ -344,8 +344,8 @@
       </div>
 
       <div id="international-group" style="display:none;">
-        <input type="text" id="intl-state" placeholder="State">
-        <input type="text" id="intl-city" placeholder="City">
+        <input type="text" id="intl-state" placeholder="State" aria-label="State">
+        <input type="text" id="intl-city" placeholder="City" aria-label="City">
         <p class="checkout-shipping-note">We'll confirm international shipping cost and delivery time with you directly (via WhatsApp or email) after your order.</p>
       </div>
 

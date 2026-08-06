@@ -32,7 +32,6 @@
 
 .admin-login-form input:focus {
   border-color: var(--accent);
-  outline: none;
 }
 
 .admin-login-form button {
@@ -115,7 +114,6 @@
 
 .admin-add-form input:focus {
   border-color: var(--accent);
-  outline: none;
 }
 
 .admin-add-form button {
@@ -308,7 +306,6 @@
 
 .modal-box input:focus {
   border-color: var(--accent);
-  outline: none;
 }
 
 .modal-file-label {

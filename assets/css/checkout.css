@@ -160,7 +160,6 @@
 .checkout-container textarea:focus,
 .checkout-container select:focus {
   border-color: var(--accent);
-  outline: none;
 }
 
 .checkout-container label {
