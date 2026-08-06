@@ -1,6 +1,9 @@
 // Bootstraps admin.html. Loaded last so every function it wires up is
 // already defined by the other assets/js/admin-*.js files loaded before it.
 document.addEventListener('DOMContentLoaded', function () {
+  const copyrightYear = document.getElementById('copyright-year');
+  if (copyrightYear) copyrightYear.textContent = new Date().getFullYear();
+
   const loginForm = document.getElementById('login-form');
   const addProductForm = document.getElementById('add-product-form');
   const logoutBtn = document.getElementById('logout-btn');
