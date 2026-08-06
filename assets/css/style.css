@@ -838,11 +838,14 @@ footer > p > div {
   overflow: hidden;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
 @media (min-width: 700px) {
   .hero {
-    min-height: 640px;
+    min-height: 0;
+    height: clamp(560px, 55vw, 820px);
   }
 }
 
