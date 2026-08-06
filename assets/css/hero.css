@@ -78,6 +78,30 @@
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
 }
 
+.hero-dots {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 48px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.hero-dot.active {
+  width: 20px;
+  background: var(--accent);
+}
+
 .scroll-cue {
   position: absolute;
   z-index: 2;
