@@ -110,7 +110,7 @@ header h1 a, header h1 .logo {
   transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-.header-social:hover {
+a.header-social:hover {
   color: var(--accent);
   background: var(--surface-alt);
   text-decoration: none;
