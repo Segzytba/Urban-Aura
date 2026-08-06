@@ -831,7 +831,7 @@ footer > p > div {
   position: relative;
   text-align: center;
   color: #fff;
-  height: calc(100vh - var(--header-h));
+  height: clamp(560px, 58vw, 780px);
   min-height: 480px;
   display: flex;
   align-items: center;
@@ -839,6 +839,8 @@ footer > p > div {
   overflow: hidden;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .hero-slides {
@@ -850,9 +852,8 @@ footer > p > div {
 .hero-slide {
   position: absolute;
   inset: 0;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
+  background-size: cover;
+  background-position: center 20%;
   opacity: 0;
   transition: opacity 1s ease;
 }
