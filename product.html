@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Review your Urban Aura shopping cart before checkout.">
-  <title>Shopping Cart - Urban Aura</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View product details, sizing, and availability, then add it to your Urban Aura cart.">
+  <title>Product - Urban Aura</title>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Urban Aura">
-  <meta property="og:title" content="Shopping Cart - Urban Aura">
-  <meta property="og:description" content="Review your Urban Aura shopping cart before checkout.">
-  <meta property="og:url" content="https://urban-aura.netlify.app/cart.html">
+  <meta property="og:title" content="Product - Urban Aura">
+  <meta property="og:description" content="View product details, sizing, and availability, then add it to your Urban Aura cart.">
+  <meta property="og:url" content="https://urban-aura.netlify.app/product.html">
   <meta property="og:image" content="https://urban-aura.netlify.app/assets/images/hero/urban-aura-hero.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Shopping Cart - Urban Aura">
-  <meta name="twitter:description" content="Review your Urban Aura shopping cart before checkout.">
+  <meta name="twitter:title" content="Product - Urban Aura">
+  <meta name="twitter:description" content="View product details, sizing, and availability, then add it to your Urban Aura cart.">
   <meta name="twitter:image" content="https://urban-aura.netlify.app/assets/images/hero/urban-aura-hero.jpg">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d0d0d'/%3E%3Ctext x='50' y='70' font-size='58' font-family='Arial, sans-serif' font-weight='bold' fill='%23ff5722' text-anchor='middle'%3EU%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="preconnect" href="https://ntolfldyyipmwhnhivdq.supabase.co">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<!-- Floating Cart Icon -->
+  <!-- Floating Cart Icon -->
 <div class="cart-floating" onclick="toggleCartPreview()">
   🛒 <span id="cart-count">0</span>
 </div>
@@ -57,8 +58,7 @@
   <a href="cart.html" class="go-to-cart">Go to Cart</a>
 </div>
 
-
-  <header class="site-header">
+  <header>
     <div class="header-bar">
       <span class="header-social">
         <img src="assets/images/hero/urban-aura-icon-badge.png" alt="Urban Aura">
@@ -78,48 +78,20 @@
     <div class="nav-backdrop" id="nav-backdrop" onclick="closeNav()"></div>
   </header>
 
-  <main class="cart-page">
-    <div class="shop-intro">
-      <h2>Your Shopping Cart</h2>
-      <p id="cart-item-count" class="cart-item-count"></p>
-    </div>
-
-    <div class="container">
-      <div id="cart-items" class="cart-items">
-
-        <!-- Cart items will be loaded here -->
-
-      </div>
-
-      <div class="cart-actions">
-        <button class="btn" onclick="window.location.href='shop.html'">Continue Shopping</button>
-        <button class="btn btn-primary requires-items" onclick="window.location.href='checkout.html'">Checkout</button>
-        <button class="btn btn-danger requires-items" onclick="clearCart()">Clear Cart</button>
-      </div>
-
-      <div class="cart-trust-strip">
-        <div class="trust-item">
-          <span class="icon-chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 5 3 8.5 7 10 4-1.5 7-5 7-10V6l-7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>
-          </span>
-          <div>
-            <strong>Secure Payment</strong>
-            <span>Powered by Paystack</span>
-          </div>
-        </div>
-        <div class="trust-item">
-          <span class="icon-chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="13" height="9"></rect><path d="M14 10h4l3 3v3h-7z"></path><circle cx="6" cy="18" r="1.6"></circle><circle cx="17" cy="18" r="1.6"></circle></svg>
-          </span>
-          <div>
-            <strong>Fast Delivery</strong>
-            <span>Worldwide shipping</span>
-          </div>
+  <div class="product-detail-wrap">
+    <a href="shop.html" class="back-to-shop-link">&larr; Back to Shop</a>
+    <div id="product-detail">
+      <div class="product product-detail-box product-skeleton" aria-hidden="true">
+        <div class="skeleton-block skeleton-img"></div>
+        <div class="product-detail-info">
+          <div class="skeleton-block skeleton-line" style="width:60%"></div>
+          <div class="skeleton-block skeleton-line" style="width:30%"></div>
         </div>
       </div>
     </div>
-  </main>
- <footer>
+  </div>
+
+  <footer>
     <p>Urban Aura Collections</p>
     <div class="footer-social">
       <a href="https://www.instagram.com/urbanaura.style?igsh=YjJ4aXJjNHd1dWk5&utm_source=qr" target="_blank" rel="noopener" class="footer-social-link">
@@ -135,6 +107,8 @@
     <p class="footer-copyright">&copy; <span id="copyright-year"></span> Urban Aura. All Rights Reserved.</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="assets/js/supabase-config.js"></script>
   <script src="assets/js/script.js"></script>
 </body>
 </html>

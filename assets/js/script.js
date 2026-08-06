@@ -14,13 +14,16 @@ function renderProductCard(p) {
   const name = escapeHtml(p.name);
   const priceLabel = `&#8358;${p.price.toLocaleString()}.NGN`;
   const stock = Number.isFinite(p.stock) ? p.stock : 10;
+  const detailHref = `product.html?id=${encodeURIComponent(p.id)}`;
 
   if (stock <= 0) {
     return `
       <div class="product sold-out" data-name="${name}" data-price="${p.price}">
-        <img src="${p.image}" alt="${name}" loading="lazy">
+        <a href="${detailHref}" class="product-media-link" aria-label="View ${name} details">
+          <img src="${p.image}" alt="${name}" loading="lazy">
+        </a>
         <span class="sold-out-badge">Sold Out</span>
-        <h3>${name.toUpperCase()}</h3>
+        <a href="${detailHref}" class="product-title-link"><h3>${name.toUpperCase()}</h3></a>
         <p>${priceLabel}</p>
         <a class="restock-link" href="https://wa.link/ao2tmy" target="_blank" rel="noopener">Ask about restock&nbsp;&rarr;</a>
       </div>`;
@@ -28,8 +31,10 @@ function renderProductCard(p) {
 
   return `
     <div class="product" data-name="${name}" data-price="${p.price}" data-stock="${stock}">
-      <img src="${p.image}" alt="${name}" loading="lazy">
-      <h3>${name.toUpperCase()}</h3>
+      <a href="${detailHref}" class="product-media-link" aria-label="View ${name} details">
+        <img src="${p.image}" alt="${name}" loading="lazy">
+      </a>
+      <a href="${detailHref}" class="product-title-link"><h3>${name.toUpperCase()}</h3></a>
       <p>${priceLabel}</p>
       <div class="product-options">
         <select class="size-select" aria-label="Select size">
@@ -46,6 +51,76 @@ function renderProductCard(p) {
       </div>
       <button type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
     </div>`;
+}
+
+// ---------- Product detail page ----------
+function renderProductDetail(p) {
+  const name = escapeHtml(p.name);
+  const priceLabel = `&#8358;${p.price.toLocaleString()}.NGN`;
+  const stock = Number.isFinite(p.stock) ? p.stock : 10;
+
+  if (stock <= 0) {
+    return `
+      <div class="product product-detail-box sold-out" data-name="${name}" data-price="${p.price}">
+        <img src="${p.image}" alt="${name}">
+        <div class="product-detail-info">
+          <span class="sold-out-badge">Sold Out</span>
+          <h3>${name.toUpperCase()}</h3>
+          <p>${priceLabel}</p>
+          <a class="restock-link" href="https://wa.link/ao2tmy" target="_blank" rel="noopener">Ask about restock&nbsp;&rarr;</a>
+        </div>
+      </div>`;
+  }
+
+  return `
+    <div class="product product-detail-box" data-name="${name}" data-price="${p.price}" data-stock="${stock}">
+      <img src="${p.image}" alt="${name}">
+      <div class="product-detail-info">
+        <h3>${name.toUpperCase()}</h3>
+        <p>${priceLabel}</p>
+        <div class="product-options">
+          <select class="size-select" aria-label="Select size">
+            <option value="S">S</option>
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <div class="qty-stepper">
+            <button type="button" onclick="stepQty(this, -1)" aria-label="Decrease quantity">&minus;</button>
+            <input type="number" class="qty-input" value="1" min="1" max="${stock}" inputmode="numeric">
+            <button type="button" onclick="stepQty(this, 1)" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+        <button type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
+      </div>
+    </div>`;
+}
+
+async function renderProductDetailPage() {
+  const container = document.getElementById('product-detail');
+  if (!container || typeof supabaseClient === 'undefined') return;
+
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id');
+
+  if (!id) {
+    container.innerHTML = '<p class="empty-state">Product not found. <a href="shop.html">Back to shop &rarr;</a></p>';
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from('products')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle();
+
+  if (error || !data) {
+    container.innerHTML = '<p class="empty-state">Sorry, we couldn\'t find that product. <a href="shop.html">Back to shop &rarr;</a></p>';
+    return;
+  }
+
+  document.title = `${data.name} - Urban Aura`;
+  container.innerHTML = renderProductDetail(data);
 }
 
 const PRODUCTS_CACHE_KEY = 'ua_products_cache_v1';
@@ -389,16 +464,22 @@ window.addEventListener('scroll', function () {
 function toggleNav() {
   const nav = document.getElementById('site-nav');
   const toggle = document.querySelector('.nav-toggle');
+  const backdrop = document.getElementById('nav-backdrop');
   if (!nav) return;
   const isOpen = nav.classList.toggle('open');
   if (toggle) toggle.setAttribute('aria-expanded', String(isOpen));
+  if (backdrop) backdrop.classList.toggle('show', isOpen);
+  document.body.classList.toggle('nav-open-lock', isOpen);
 }
 
 function closeNav() {
   const nav = document.getElementById('site-nav');
   const toggle = document.querySelector('.nav-toggle');
+  const backdrop = document.getElementById('nav-backdrop');
   if (nav) nav.classList.remove('open');
   if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  if (backdrop) backdrop.classList.remove('show');
+  document.body.classList.remove('nav-open-lock');
 }
 
 function highlightActiveNavLink() {
@@ -462,6 +543,7 @@ function initScrollReveal() {
 
 document.addEventListener('DOMContentLoaded', function () {
   renderProductsGrid();
+  renderProductDetailPage();
   renderCartPreview();
   renderFullCart();
   highlightActiveNavLink();

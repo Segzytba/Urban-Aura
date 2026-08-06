@@ -77,7 +77,7 @@ To redeploy the function after editing `supabase/functions/paystack-webhook/inde
 - Toast notifications instead of browser alerts
 - Mobile nav (hamburger), responsive grid, floating WhatsApp chat widget
 - Paystack checkout with delivery fee calculation
-- EmailJS order confirmation + contact form
+- EmailJS order confirmation email
 
 ## Tools used
 
