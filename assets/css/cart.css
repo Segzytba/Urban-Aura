@@ -243,8 +243,25 @@
   display: block;
 }
 
+.cart-preview-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.cart-preview-close:hover {
+  color: var(--accent);
+}
+
 .cart-preview h4 {
-  margin: 0 0 10px;
+  margin: 0 24px 10px 0;
 }
 
 .cart-preview ul {
