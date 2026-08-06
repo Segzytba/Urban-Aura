@@ -46,6 +46,32 @@
   opacity: 1;
 }
 
+.hero-slide-heatwave-campaign {
+  background-image: url('../images/lookbook/heatwave-campaign.jpg');
+  background-position: center 12%;
+}
+
+.hero-slide-heatwave {
+  background-image: url('../images/lookbook/heatwave.jpeg');
+  background-position: center 12%;
+}
+
+/* Below 700px the hero fills the full viewport height edge to edge, which
+   crops these two text-heavy campaign shots hard enough to cut the
+   "HEATWAVE" title off at both edges. Swap in versions padded with a
+   blurred color-matched backdrop so the full title stays in frame. */
+@media (max-width: 699px) {
+  .hero-slide-heatwave-campaign {
+    background-image: url('../images/lookbook/heatwave-campaign-padded.jpg');
+    background-position: center center;
+  }
+
+  .hero-slide-heatwave {
+    background-image: url('../images/lookbook/heatwave-padded.jpeg');
+    background-position: center center;
+  }
+}
+
 .hero-overlay {
   position: absolute;
   inset: 0;
