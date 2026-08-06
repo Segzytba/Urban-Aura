@@ -6,20 +6,22 @@ A streetwear brand storefront — static HTML/CSS/JS frontend, backed by a Supab
 
 ```
 Urban Aura/
-├── index.html          Landing page (hero slideshow, trust row)
-├── shop.html            Full product grid (loads live from Supabase)
-├── cart.html             Cart (quantity/remove controls)
-├── checkout.html         Order form + Paystack payment
+├── index.html            Landing page (hero slideshow, trust row)
+├── shop.html             Full product grid (loads live from Supabase)
+├── cart.html              Cart (quantity/remove controls)
+├── checkout.html          Order form + Paystack payment
+├── product.html           Single product detail page (product.html?id=...)
+├── shipping-returns.html  Shipping & returns policy page
+├── admin.html             Password-protected dashboard (product/order management)
+├── robots.txt
+├── sitemap.xml
 ├── assets/
-│   ├── css/
-│   │   └── style.css     All site styling
-│   ├── js/
-│   │   ├── supabase-config.js   Supabase project URL + publishable key
-│   │   └── script.js            Cart logic, product rendering, nav, toasts — shared by every page
+│   ├── css/               One file per page/component — see below
+│   ├── js/                One file per feature/module — see below
 │   └── images/
-│       ├── products/     Product photos
-│       ├── hero/         Homepage hero assets
-│       └── lookbook/      Lifestyle photos used in the hero slideshow
+│       ├── products/      Product photos
+│       ├── hero/          Homepage hero assets + the "UA" header badge
+│       └── lookbook/       Lifestyle photos used in the hero slideshow
 ├── supabase/
 │   └── functions/
 │       └── paystack-webhook/
@@ -27,7 +29,47 @@ Urban Aura/
 └── README.md
 ```
 
-Every page loads `assets/css/style.css`, then `assets/js/script.js`. `shop.html` additionally loads the Supabase JS client (CDN) and `supabase-config.js` before `script.js`, since it fetches the product catalog live.
+### CSS (`assets/css/`)
+
+Split by component/page instead of one monolithic stylesheet, so each page only loads what it actually uses:
+
+| File | Contains | Loaded on |
+|---|---|---|
+| `base.css` | CSS variables, reset, typography, generic buttons, toasts, empty states, back-to-top, shared animations | every page |
+| `header.css` | Header bar, logo, nav (desktop inline + mobile slide-in drawer) | every page |
+| `footer.css` | Footer, social links, copyright | every page |
+| `cart.css` | Floating cart icon, mini-cart preview, and the full cart page | every page except admin |
+| `chat-widget.css` | Floating WhatsApp chat widget | every page except admin |
+| `hero.css` | Homepage hero slideshow + trust row | `index.html` |
+| `shop.css` | Product grid, product card, size/qty selectors, skeleton loaders | `shop.html`, `product.html` |
+| `product-detail.css` | Single product detail page layout | `product.html` |
+| `checkout.css` | Checkout form, order summary | `checkout.html` |
+| `policy.css` | Shipping & returns page | `shipping-returns.html` |
+| `admin.css` | Admin login/dashboard, product/order rows, modals | `admin.html` |
+
+### JavaScript (`assets/js/`)
+
+Same idea — one file per feature. All are plain scripts (no bundler, no ES modules) sharing the global scope exactly like the old single file did, so load order matters: `utils.js` → `toast.js` → `cart.js` → `products.js` → `nav.js` → `hero.js` → `chat-widget.js` → `ui.js` → `main.js` (the bootstrap, always loaded last). `admin.html` additionally loads `admin-modal.js` → `admin-products.js` → `admin-orders.js` → `admin-auth.js` → `admin-main.js` after that shared set.
+
+| File | Contains |
+|---|---|
+| `supabase-config.js` | Supabase project URL + publishable key |
+| `utils.js` | `escapeHtml` |
+| `toast.js` | Toast notification system |
+| `cart.js` | Cart state (localStorage), add/remove/update, mini-cart + full cart rendering |
+| `products.js` | Shop grid + product detail page rendering, fetched from Supabase |
+| `nav.js` | Mobile nav drawer, active-link highlighting, header height sync |
+| `hero.js` | Homepage hero slideshow autoplay |
+| `chat-widget.js` | WhatsApp chat widget toggle |
+| `ui.js` | Back-to-top button, scroll reveal, click-outside-to-close behavior |
+| `main.js` | `DOMContentLoaded` bootstrap — calls the init functions above |
+| `admin-modal.js` | Reusable confirm dialog |
+| `admin-products.js` | Product CRUD + image upload |
+| `admin-orders.js` | Order list rendering |
+| `admin-auth.js` | Login/logout/password reset, inactivity auto-logout |
+| `admin-main.js` | Admin `DOMContentLoaded` bootstrap |
+
+`shop.html`, `product.html`, and `admin.html` additionally load the Supabase JS client (CDN) and `supabase-config.js` before the rest, since they talk to the database directly.
 
 ## Running it locally
 

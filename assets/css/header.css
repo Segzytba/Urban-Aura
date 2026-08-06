@@ -1,0 +1,222 @@
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header h1, footer h1 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+
+header h1 a, header h1 .logo {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.header-social {
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--text);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+a.header-social:hover {
+  color: var(--accent);
+  background: var(--surface-alt);
+  text-decoration: none;
+}
+
+.header-social svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.header-social img {
+  width: 22px;
+  height: auto;
+  display: block;
+}
+
+.nav-toggle {
+  display: none;
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 1002;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+nav.nav, .nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.nav-drawer-header {
+  display: none;
+}
+
+nav a, .nav a {
+  color: var(--text);
+  margin: 0 12px;
+  text-decoration: none;
+  font-weight: 500;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+nav a:hover, .nav a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  text-decoration: none;
+}
+
+.nav a.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+    position: fixed;
+    top: 12px;
+    right: 16px;
+    transform: none;
+    z-index: 1200;
+  }
+
+  nav.nav, .nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: auto;
+    max-height: 100vh;
+    width: min(280px, 80vw);
+    background: linear-gradient(180deg, var(--surface-alt), var(--surface) 60px);
+    border-left: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-bottom-left-radius: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 84px 20px 24px;
+    margin: 0;
+    overflow-y: auto;
+    opacity: 1;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    box-shadow: -8px 8px 24px rgba(0, 0, 0, 0.45);
+    z-index: 1150;
+  }
+
+  nav.nav.open, .nav.open {
+    transform: translateX(0);
+  }
+
+  .nav-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1100;
+  }
+
+  .nav-backdrop.show {
+    display: block;
+  }
+
+  .nav-drawer-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding-bottom: 14px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .nav-drawer-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  nav a, .nav a {
+    margin: 4px 0;
+    padding: 12px 10px;
+    width: 100%;
+    border-bottom: 1px solid var(--border);
+    border-radius: 8px;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.2s ease;
+  }
+
+  nav a:hover, .nav a:hover,
+  nav a.active, .nav a.active {
+    background: rgba(255, 87, 34, 0.14);
+  }
+}

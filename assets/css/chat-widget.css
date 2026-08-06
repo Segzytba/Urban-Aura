@@ -1,0 +1,155 @@
+.chat-widget {
+  position: fixed;
+  right: 20px;
+  bottom: 84px;
+  z-index: 1000;
+}
+
+.chat-bubble {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease;
+}
+
+.chat-bubble:hover {
+  transform: scale(1.06);
+}
+
+.chat-bubble svg {
+  width: 26px;
+  height: 26px;
+}
+
+.chat-preview {
+  position: absolute;
+  right: 0;
+  bottom: 64px;
+  width: 280px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 16px;
+  display: none;
+}
+
+.chat-preview.open {
+  display: block;
+}
+
+.chat-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  position: relative;
+  padding-right: 16px;
+}
+
+.chat-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.chat-preview-header strong {
+  display: block;
+  font-size: 14px;
+}
+
+.chat-subtitle {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.chat-preview-close {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.chat-preview-message {
+  font-size: 13px;
+  color: var(--text);
+  background: var(--surface-alt);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+
+.chat-preview-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #25d366;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.chat-preview-cta svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.chat-preview-cta:hover {
+  background: #1ebe5a;
+  text-decoration: none;
+  color: #fff;
+}
+
+@media (max-width: 480px) {
+  .chat-widget {
+    right: 16px;
+    bottom: 70px;
+  }
+
+  .chat-bubble {
+    width: 46px;
+    height: 46px;
+  }
+
+  .chat-bubble svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .chat-preview {
+    right: -4px;
+    width: calc(100vw - 32px);
+    max-width: 290px;
+    bottom: 58px;
+  }
+}

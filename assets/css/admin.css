@@ -1,0 +1,329 @@
+.admin-login {
+  max-width: 380px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+
+.admin-login-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow);
+}
+
+.admin-login-form h2 {
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+.admin-login-form input {
+  margin-bottom: 14px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: var(--surface-alt);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-family: var(--font);
+}
+
+.admin-login-form input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.admin-login-form button {
+  min-height: 44px;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font);
+  font-weight: 500;
+}
+
+.admin-login-form button:hover {
+  background-color: var(--accent-dark);
+}
+
+.admin-forgot-link {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+
+.admin-form-hint {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: -8px 0 16px;
+  line-height: 1.5;
+}
+
+.admin-dashboard {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+.admin-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-email-label {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.admin-section {
+  margin-bottom: 40px;
+}
+
+.admin-section h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.admin-add-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.admin-add-form input {
+  padding: 10px;
+  font-size: 16px;
+  background-color: var(--surface-alt);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-family: var(--font);
+}
+
+.admin-add-form input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.admin-add-form button {
+  grid-column: 1 / -1;
+  min-height: 44px;
+}
+
+.admin-products-list,
+.admin-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-product-row {
+  display: grid;
+  grid-template-columns: 48px 1fr auto auto auto;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.admin-edit-btn {
+  min-height: 36px;
+  padding: 6px 14px;
+  font-size: 13px;
+}
+
+.admin-product-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.admin-product-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.admin-product-info span {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.admin-product-stock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-stock-input {
+  width: 60px;
+  padding: 8px;
+  font-size: 14px;
+  background-color: var(--surface-alt);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-family: var(--font);
+}
+
+.admin-delete-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 20px;
+  padding: 6px;
+  line-height: 1;
+}
+
+.admin-delete-btn:hover {
+  color: #e53935;
+}
+
+.admin-order-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.admin-order-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.admin-order-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.admin-order-items {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.admin-order-ref {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.admin-order-intl-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(255, 87, 34, 0.15);
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+  .admin-add-form {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-product-row {
+    grid-template-columns: 40px 1fr auto auto;
+    grid-template-rows: auto auto;
+  }
+
+  .admin-product-thumb {
+    grid-row: 1 / span 2;
+  }
+
+  .admin-product-stock {
+    grid-column: 2 / span 3;
+  }
+}
+
+/* Modals (confirm dialog + edit product dialog) */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.modal-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: var(--shadow);
+}
+
+.modal-box h3 {
+  margin: 0 0 16px;
+}
+
+.modal-box p {
+  margin: 0 0 20px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.modal-box form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-box input {
+  margin-bottom: 12px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: var(--surface-alt);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-family: var(--font);
+}
+
+.modal-box input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.modal-file-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+.modal-actions .btn {
+  min-height: 40px;
+}
