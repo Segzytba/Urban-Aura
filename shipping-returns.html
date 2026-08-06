@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Review your Urban Aura shopping cart before checkout.">
-  <title>Shopping Cart - Urban Aura</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Urban Aura shipping and delivery information, plus our returns and exchanges policy.">
+  <title>Shipping & Returns - Urban Aura</title>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Urban Aura">
-  <meta property="og:title" content="Shopping Cart - Urban Aura">
-  <meta property="og:description" content="Review your Urban Aura shopping cart before checkout.">
-  <meta property="og:url" content="https://urban-aura.netlify.app/cart.html">
+  <meta property="og:title" content="Shipping & Returns - Urban Aura">
+  <meta property="og:description" content="Urban Aura shipping and delivery information, plus our returns and exchanges policy.">
+  <meta property="og:url" content="https://urban-aura.netlify.app/shipping-returns.html">
   <meta property="og:image" content="https://urban-aura.netlify.app/assets/images/hero/urban-aura-hero.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Shopping Cart - Urban Aura">
-  <meta name="twitter:description" content="Review your Urban Aura shopping cart before checkout.">
+  <meta name="twitter:title" content="Shipping & Returns - Urban Aura">
+  <meta name="twitter:description" content="Urban Aura shipping and delivery information, plus our returns and exchanges policy.">
   <meta name="twitter:image" content="https://urban-aura.netlify.app/assets/images/hero/urban-aura-hero.jpg">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d0d0d'/%3E%3Ctext x='50' y='70' font-size='58' font-family='Arial, sans-serif' font-weight='bold' fill='%23ff5722' text-anchor='middle'%3EU%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<!-- Floating Cart Icon -->
+  <!-- Floating Cart Icon -->
 <div class="cart-floating" onclick="toggleCartPreview()">
   🛒 <span id="cart-count">0</span>
 </div>
@@ -57,8 +57,7 @@
   <a href="cart.html" class="go-to-cart">Go to Cart</a>
 </div>
 
-
-  <header class="site-header">
+  <header>
     <div class="header-bar">
       <span class="header-social">
         <img src="assets/images/hero/urban-aura-icon-badge.png" alt="Urban Aura">
@@ -76,48 +75,34 @@
     </nav>
   </header>
 
-  <main class="cart-page">
-    <div class="shop-intro">
-      <h2>Your Shopping Cart</h2>
-      <p id="cart-item-count" class="cart-item-count"></p>
-    </div>
+  <div class="policy-page">
+    <h1>Shipping &amp; Returns</h1>
+    <p class="policy-intro">Everything you need to know about getting your order and what to do if something's not right.</p>
 
-    <div class="container">
-      <div id="cart-items" class="cart-items">
+    <h2>Shipping &amp; Delivery</h2>
+    <p>We ship anywhere in Nigeria and worldwide. Because delivery cost and delivery time depend on your location, we don't charge or estimate shipping automatically at checkout — instead, once you place an order, we'll confirm the exact delivery cost and expected delivery time with you directly, via WhatsApp or email.</p>
+    <ul>
+      <li><strong>Within Nigeria:</strong> we'll reach out shortly after your order to confirm delivery cost and timing for your state.</li>
+      <li><strong>International orders:</strong> we'll confirm shipping cost and delivery time with you directly before your order ships, since this varies a lot by country.</li>
+    </ul>
+    <p>You'll get an order confirmation by email as soon as payment goes through. From there, we keep you updated on your order's status via WhatsApp or email — if you haven't heard from us within 48 hours of ordering, feel free to message us on WhatsApp with your order reference.</p>
 
-        <!-- Cart items will be loaded here -->
+    <h2>Returns &amp; Exchanges</h2>
+    <p>If something doesn't fit right, you can request an exchange within <strong>7 days of delivery</strong>.</p>
+    <ul>
+      <li><strong>Exchanges only</strong> — we offer a size or color swap of equal value. We don't offer cash refunds.</li>
+      <li><strong>Condition:</strong> items must be unworn, unwashed, with tags still attached, in their original packaging.</li>
+      <li><strong>Return shipping:</strong> the cost of sending the item back to us is covered by you, the customer.</li>
+      <li><strong>How to start an exchange:</strong> message us on WhatsApp with your order reference and what you'd like to exchange for — we'll walk you through the rest.</li>
+    </ul>
 
-      </div>
+    <h2>Defective or Wrong Item</h2>
+    <p>If you received a defective item or the wrong item due to our error, that's on us — message us on WhatsApp within 7 days of delivery with a photo, and we'll send a free replacement at no cost to you, including shipping.</p>
 
-      <div class="cart-actions">
-        <button class="btn" onclick="window.location.href='shop.html'">Continue Shopping</button>
-        <button class="btn btn-primary requires-items" onclick="window.location.href='checkout.html'">Checkout</button>
-        <button class="btn btn-danger requires-items" onclick="clearCart()">Clear Cart</button>
-      </div>
+    <p class="policy-updated">This policy applies to orders placed through Urban Aura's official website. Have a question not covered here? Reach out to us on WhatsApp and we'll help directly.</p>
+  </div>
 
-      <div class="cart-trust-strip">
-        <div class="trust-item">
-          <span class="icon-chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 5 3 8.5 7 10 4-1.5 7-5 7-10V6l-7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>
-          </span>
-          <div>
-            <strong>Secure Payment</strong>
-            <span>Powered by Paystack</span>
-          </div>
-        </div>
-        <div class="trust-item">
-          <span class="icon-chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="13" height="9"></rect><path d="M14 10h4l3 3v3h-7z"></path><circle cx="6" cy="18" r="1.6"></circle><circle cx="17" cy="18" r="1.6"></circle></svg>
-          </span>
-          <div>
-            <strong>Fast Delivery</strong>
-            <span>Worldwide shipping</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
- <footer>
+  <footer>
     <p>Urban Aura Collections</p>
     <div class="footer-social">
       <a href="https://www.instagram.com/urbanaura.style?igsh=YjJ4aXJjNHd1dWk5&utm_source=qr" target="_blank" rel="noopener" class="footer-social-link">
