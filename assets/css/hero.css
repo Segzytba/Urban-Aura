@@ -1,9 +1,12 @@
 /* Hero (homepage only) */
+/* Mobile: fills exactly what's left below the header, edge to edge, no
+   gaps — phone aspect ratios already sit close to the photos' own shape,
+   so full-bleed cover doesn't crop aggressively here. */
 .hero {
   position: relative;
   text-align: center;
   color: #fff;
-  height: clamp(560px, 80vw, 1150px);
+  height: calc(100vh - var(--header-h));
   min-height: 480px;
   display: flex;
   align-items: center;
@@ -11,8 +14,17 @@
   overflow: hidden;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
-  max-width: 1400px;
-  margin: 0 auto;
+}
+
+/* Wider screens: viewport-height fill would force a very wide, short box
+   relative to the portrait photos, cropping them hard — so above mobile
+   widths we switch to a bounded size that keeps the crop reasonable. */
+@media (min-width: 700px) {
+  .hero {
+    height: clamp(560px, 80vw, 1150px);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
 }
 
 .hero-slides {
