@@ -831,7 +831,7 @@ footer > p > div {
   position: relative;
   text-align: center;
   color: #fff;
-  height: clamp(560px, 58vw, 950px);
+  height: clamp(560px, 80vw, 1150px);
   min-height: 480px;
   display: flex;
   align-items: center;
