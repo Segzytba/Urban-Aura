@@ -1,7 +1,7 @@
 // Paystack webhook: runs on Supabase's servers, not the customer's browser.
 // Paystack calls this directly the instant a payment clears, so an order
-// gets recorded even if the customer's connection drops or they close the
-// tab right after paying.
+// gets recorded (and the order-notification emails go out) even if the
+// customer's connection drops or they close the tab right after paying.
 //
 // Deploy this via the Supabase Dashboard -> Edge Functions (paste this file's
 // contents in there). Needs one secret set in that function's settings:
@@ -14,6 +14,42 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 const PAYSTACK_SECRET_KEY = Deno.env.get('PAYSTACK_SECRET_KEY')!;
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+
+// Same EmailJS service/template/key checkout.html used to use client-side -
+// moved server-side so it fires reliably even if the customer's browser
+// closes right after paying. The "Contact Us" template is the admin
+// new-order alert (To Email is hardcoded to the shop owner); it has a linked
+// Auto-Reply template that sends the customer's order confirmation to
+// whichever address is in the `email` param below - one send triggers both.
+const EMAILJS_SERVICE_ID = 'service_29moyrs';
+const EMAILJS_TEMPLATE_ID = 'template_38x21c9';
+const EMAILJS_PUBLIC_KEY = 'QQOHK4e4OmAmnBa_a';
+
+async function sendOrderEmail(params: Record<string, string>): Promise<void> {
+  try {
+    const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // EmailJS restricts its public key to requests from allowed origins;
+        // this mirrors the site's own origin since the call now comes from
+        // this server instead of the customer's browser.
+        'Origin': 'https://urban-aura.netlify.app',
+      },
+      body: JSON.stringify({
+        service_id: EMAILJS_SERVICE_ID,
+        template_id: EMAILJS_TEMPLATE_ID,
+        user_id: EMAILJS_PUBLIC_KEY,
+        template_params: params,
+      }),
+    });
+    if (!res.ok) {
+      console.error('EmailJS send failed:', res.status, await res.text());
+    }
+  } catch (err) {
+    console.error('EmailJS send threw:', err);
+  }
+}
 
 async function isFromPaystack(rawBody: string, signature: string | null): Promise<boolean> {
   if (!signature) return false;
@@ -102,6 +138,28 @@ Deno.serve(async (req) => {
       await supabase.from('products').update({ stock: newStock }).eq('id', product.id);
     }
   }
+
+  // Fires the admin new-order alert, which triggers the linked customer
+  // confirmation as an auto-reply (see the EMAILJS_* constants above).
+  // Best-effort: an email hiccup here shouldn't turn a successfully
+  // recorded order into a failed webhook response.
+  const orderDetailsText = items
+    .map((item: { productName?: string; size?: string; quantity?: number; price?: number }) => {
+      const qty = Number(item.quantity) || 1;
+      const lineTotal = (Number(item.price) || 0) * qty;
+      return `📦 ${item.productName || 'Item'} (${item.size || 'M'}) x${qty} - ₦${lineTotal.toLocaleString()}`;
+    })
+    .join('\n');
+
+  await sendOrderEmail({
+    fullname: metadata.full_name || '',
+    email: data.customer?.email || '',
+    phone: metadata.phone || '',
+    address: metadata.address || '',
+    amount: Math.round(data.amount / 100).toLocaleString(),
+    reference: data.reference,
+    order: orderDetailsText,
+  });
 
   return new Response('OK', { status: 200 });
 });

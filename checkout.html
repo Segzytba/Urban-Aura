@@ -372,19 +372,14 @@
     <p class="footer-copyright">&copy; <span id="copyright-year"></span> Urban Aura. All Rights Reserved.</p>
   </footer>
 
-  <!-- Paystack & EmailJS Scripts -->
+  <!-- Paystack Scripts -->
   <script src="https://js.paystack.co/v1/inline.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-    emailjs.init("QQOHK4e4OmAmnBa_a");
-  </script>
 
   <script>
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartSummary = document.getElementById("cart-summary");
     const payBtn = document.getElementById("pay-btn");
     let total = 0;
-    let orderDetails = "";
 
     function calculatePaystackTotal(amountToReceive) {
       let fee = amountToReceive <= 2500 ? 0.015 * amountToReceive : 0.015 * amountToReceive + 100;
@@ -414,7 +409,6 @@
             </div>
             <span class="summary-item-price">₦${lineTotal.toLocaleString()}</span>
           </li>`;
-        orderDetails += `📦 ${item.productName} (${size}) x${qty} - ₦${lineTotal.toLocaleString()}\n`;
         total += lineTotal;
       });
       html += `</ul>`;
@@ -578,21 +572,10 @@
           fee: fee
         },
         callback: function (response) {
-          // The order is already recorded server-side by the Paystack
-          // webhook the instant payment clears - this email is just a
-          // courtesy copy, so its failure shouldn't block the success flow.
-          emailjs.send("service_29moyrs", "template_38x21c9", {
-            fullname: fullName,
-            email: email,
-            phone: phone,
-            address: address,
-            amount: totalWithFee.toLocaleString(),
-            reference: response.reference,
-            order: orderDetails
-          }).catch(function (error) {
-            console.error("Order confirmation email failed:", error);
-          });
-
+          // The order-notification emails (admin alert + customer
+          // confirmation) are sent server-side by the Paystack webhook
+          // (supabase/functions/paystack-webhook), not from here - that way
+          // they still fire even if this tab closes right after paying.
           showToast("Payment successful & order placed!");
           localStorage.removeItem("cart");
           setTimeout(() => window.location.href = "index.html", 1500);
