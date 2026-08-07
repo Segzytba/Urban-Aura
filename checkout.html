@@ -376,10 +376,11 @@
   <script src="https://js.paystack.co/v1/inline.js"></script>
 
   <script>
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const cartSummary = document.getElementById("cart-summary");
     const payBtn = document.getElementById("pay-btn");
     let total = 0;
+    let totalWithFee = 0;
 
     function calculatePaystackTotal(amountToReceive) {
       let fee = amountToReceive <= 2500 ? 0.015 * amountToReceive : 0.015 * amountToReceive + 100;
@@ -388,10 +389,18 @@
       return Math.ceil(gross);
     }
 
-    if (cart.length === 0) {
-      cartSummary.innerHTML = "<p>Your cart is empty. <a href=\"shop.html\">Go&nbsp;shopping&nbsp;&rarr;</a></p>";
-      payBtn.disabled = true;
-    } else {
+    // Rebuilt whenever the cart changes - including after a live stock
+    // re-check right before payment finds the cart needed adjusting.
+    function renderCheckoutSummary() {
+      total = 0;
+
+      if (cart.length === 0) {
+        cartSummary.innerHTML = "<p>Your cart is empty. <a href=\"shop.html\">Go&nbsp;shopping&nbsp;&rarr;</a></p>";
+        payBtn.disabled = true;
+        return;
+      }
+
+      payBtn.disabled = false;
       let html = "<h3>Order Summary</h3><ul>";
       cart.forEach(item => {
         const qty = item.quantity || 1;
@@ -413,7 +422,7 @@
       });
       html += `</ul>`;
 
-      const totalWithFee = calculatePaystackTotal(total);
+      totalWithFee = calculatePaystackTotal(total);
       const fee = totalWithFee - total;
       html += `
         <div class="summary-totals">
@@ -423,6 +432,8 @@
         </div>`;
       cartSummary.innerHTML = html;
     }
+
+    renderCheckoutSummary();
 
     const countrySelect = document.getElementById("country-select");
     const nigeriaStateGroup = document.getElementById("nigeria-state-group");
@@ -517,7 +528,7 @@
     countrySelect.addEventListener("change", updateCountryFields);
     updateCountryFields();
 
-    function payWithPaystack() {
+    async function payWithPaystack() {
       const fullName = document.getElementById("fullname").value;
       const email = document.getElementById("email").value;
       const phoneDigits = phoneInput.value.replace(/^0+/, "");
@@ -538,11 +549,38 @@
         return;
       }
 
-      const totalWithFee = calculatePaystackTotal(total);
-      const fee = totalWithFee - total;
-
+      // Re-check stock against the live products table right before charging
+      // anything - the cart can sit open for a while, and cached/stale
+      // product data is exactly how two people end up paying for the same
+      // last unit. Blocks payment and refreshes the summary if anything
+      // changed, rather than letting the customer pay for something that's
+      // no longer available.
       payBtn.disabled = true;
       payBtn.classList.add("btn-loading");
+      payBtn.textContent = "Checking availability...";
+
+      const { changed, messages } = await validateCartAgainstLiveStock();
+      cart = getCart();
+
+      if (changed) {
+        messages.forEach(msg => showToast(msg, "error"));
+        renderCheckoutSummary();
+        payBtn.classList.remove("btn-loading");
+        payBtn.textContent = "Pay Now";
+        if (cart.length === 0) payBtn.disabled = true;
+        else payBtn.disabled = false;
+        return;
+      }
+
+      if (cart.length === 0) {
+        showToast("Your cart is empty.", "error");
+        payBtn.classList.remove("btn-loading");
+        payBtn.textContent = "Pay Now";
+        return;
+      }
+
+      const fee = totalWithFee - total;
+
       payBtn.textContent = "Processing...";
 
       const handler = PaystackPop.setup({
@@ -591,6 +629,8 @@
       handler.openIframe();
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="assets/js/supabase-config.js"></script>
   <script src="assets/js/utils.js"></script>
   <script src="assets/js/toast.js"></script>
   <script src="assets/js/cart.js"></script>
@@ -600,6 +640,15 @@
   <script src="assets/js/chat-widget.js"></script>
   <script src="assets/js/ui.js"></script>
   <script src="assets/js/main.js"></script>
+  <script>
+    validateCartAgainstLiveStock().then(({ changed, messages }) => {
+      if (changed) {
+        messages.forEach(msg => showToast(msg, 'error'));
+        cart = getCart();
+        renderCheckoutSummary();
+      }
+    });
+  </script>
 </body>
 </html>
 

@@ -141,6 +141,8 @@
     <p class="footer-copyright">&copy; <span id="copyright-year"></span> Urban Aura. All Rights Reserved.</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="assets/js/supabase-config.js"></script>
   <script src="assets/js/utils.js"></script>
   <script src="assets/js/toast.js"></script>
   <script src="assets/js/cart.js"></script>
@@ -150,5 +152,10 @@
   <script src="assets/js/chat-widget.js"></script>
   <script src="assets/js/ui.js"></script>
   <script src="assets/js/main.js"></script>
+  <script>
+    validateCartAgainstLiveStock().then(({ changed, messages }) => {
+      if (changed) messages.forEach(msg => showToast(msg, 'error'));
+    });
+  </script>
 </body>
 </html>

@@ -4,6 +4,73 @@ function getCart() {
   return JSON.parse(localStorage.getItem('cart')) || [];
 }
 
+// ---------- Live stock validation ----------
+// Cross-checks the cart against the current `products` table. Product data
+// shown while browsing can be up to a minute old (sessionStorage cache) and
+// a cart can sit open far longer than that, so this is the real check that
+// runs on the cart/checkout pages and again right before payment - not the
+// cached numbers used for the "Add to Cart" quantity limit. Removes items
+// that were deleted, clamps quantities down to whatever's actually left
+// (stock is tracked per product, not per size, so quantities across
+// same-product cart rows share one pool), and saves the corrected cart.
+async function validateCartAgainstLiveStock() {
+  const cart = getCart();
+  if (!cart.length || typeof supabaseClient === 'undefined') {
+    return { changed: false, messages: [] };
+  }
+
+  const names = [...new Set(cart.map(item => item.productName))];
+  const { data: liveProducts, error } = await supabaseClient
+    .from('products')
+    .select('name, stock')
+    .in('name', names);
+
+  if (error || !liveProducts) {
+    return { changed: false, messages: [] };
+  }
+
+  const stockByName = new Map(liveProducts.map(p => [p.name, Number.isFinite(p.stock) ? p.stock : 0]));
+  const remainingByName = new Map(stockByName);
+  const messages = [];
+  let changed = false;
+
+  const nextCart = [];
+  for (const item of cart) {
+    const liveStock = stockByName.get(item.productName);
+
+    if (liveStock === undefined) {
+      messages.push(`${item.productName} is no longer available and was removed from your cart.`);
+      changed = true;
+      continue;
+    }
+
+    const available = remainingByName.get(item.productName) ?? 0;
+    const qty = item.quantity || 1;
+
+    if (available <= 0) {
+      messages.push(`${item.productName} is out of stock and was removed from your cart.`);
+      changed = true;
+      continue;
+    }
+
+    if (qty > available) {
+      messages.push(`Only ${available} of ${item.productName} left in stock - your cart was adjusted.`);
+      nextCart.push({ ...item, quantity: available, stock: liveStock });
+      remainingByName.set(item.productName, 0);
+      changed = true;
+    } else {
+      nextCart.push({ ...item, stock: liveStock });
+      remainingByName.set(item.productName, available - qty);
+    }
+  }
+
+  if (changed) {
+    saveCart(nextCart);
+  }
+
+  return { changed, messages };
+}
+
 function saveCart(cart) {
   localStorage.setItem('cart', JSON.stringify(cart));
   renderCartPreview();

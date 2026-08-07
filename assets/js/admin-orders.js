@@ -20,7 +20,7 @@ async function loadOrders() {
     return;
   }
 
-  const STATUSES = ['paid', 'shipped', 'delivered', 'cancelled'];
+  const STATUSES = ['paid', 'oversold', 'shipped', 'delivered', 'cancelled'];
 
   list.innerHTML = data.map(o => {
     const items = Array.isArray(o.items) ? o.items : [];
@@ -41,12 +41,14 @@ async function loadOrders() {
         <div class="admin-order-meta">
           ${escapeHtml(date)} &middot; ${escapeHtml(o.state)}, ${escapeHtml(country)} &middot; ${escapeHtml(o.phone)} &middot; ${escapeHtml(o.email)}
           ${isInternational ? '<span class="admin-order-intl-badge">International — confirm shipping</span>' : ''}
+          ${status === 'oversold' ? '<span class="admin-order-oversold-badge">⚠️ Oversold — refund or restock needed</span>' : ''}
         </div>
         <div class="admin-order-items">${escapeHtml(itemsLabel)}</div>
         <div class="admin-order-footer">
           <span class="admin-order-ref">Ref: ${escapeHtml(o.reference)}</span>
           <select class="admin-order-status" aria-label="Order status for ${escapeHtml(o.customer_name)}" onchange="updateOrderStatus('${o.id}', this)">
             <option value="paid" ${status === 'paid' ? 'selected' : ''}>Paid</option>
+            <option value="oversold" ${status === 'oversold' ? 'selected' : ''}>Oversold</option>
             <option value="shipped" ${status === 'shipped' ? 'selected' : ''}>Shipped</option>
             <option value="delivered" ${status === 'delivered' ? 'selected' : ''}>Delivered</option>
             <option value="cancelled" ${status === 'cancelled' ? 'selected' : ''}>Cancelled</option>

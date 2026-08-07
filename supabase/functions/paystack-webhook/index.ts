@@ -104,6 +104,33 @@ Deno.serve(async (req) => {
     return new Response('Already processed', { status: 200 });
   }
 
+  // Atomically decrement stock BEFORE inserting the order, so a payment
+  // that can't actually be fulfilled is clearly flagged rather than quietly
+  // recorded as a normal paid order. decrement_stock_by_name does the
+  // check-and-subtract as a single conditional UPDATE inside Postgres
+  // (`WHERE stock >= qty`), which is what actually closes the race: two
+  // webhook calls for the last unit running at the same instant can't both
+  // read "1 left" and both succeed the way a separate SELECT-then-UPDATE
+  // would let them. By the time payment reaches this webhook the customer
+  // has already been charged either way (Paystack doesn't know about our
+  // inventory), so a failed decrement can't stop the order - it gets
+  // recorded with an 'oversold' status instead of 'paid' so it's
+  // impossible to miss in the admin dashboard and needs a manual refund.
+  const oversoldItems: string[] = [];
+  for (const item of items) {
+    const qty = Number(item.quantity) || 1;
+    const { data: success, error: rpcError } = await supabase.rpc('decrement_stock_by_name', {
+      p_name: item.productName,
+      p_qty: qty,
+    });
+
+    if (rpcError) {
+      console.error('Stock decrement RPC failed:', rpcError);
+    } else if (!success) {
+      oversoldItems.push(`${item.productName} x${qty}`);
+    }
+  }
+
   const { error: insertError } = await supabase.from('orders').insert({
     reference: data.reference,
     customer_name: metadata.full_name || '',
@@ -116,27 +143,12 @@ Deno.serve(async (req) => {
     subtotal: metadata.subtotal || 0,
     fee: metadata.fee || 0,
     total: Math.round(data.amount / 100),
-    status: 'paid',
+    status: oversoldItems.length > 0 ? 'oversold' : 'paid',
   });
 
   if (insertError) {
     console.error('Failed to insert order:', insertError);
     return new Response('Failed to save order', { status: 500 });
-  }
-
-  // Decrement stock for each item purchased.
-  for (const item of items) {
-    const qty = Number(item.quantity) || 1;
-    const { data: product } = await supabase
-      .from('products')
-      .select('id, stock')
-      .eq('name', item.productName)
-      .maybeSingle();
-
-    if (product) {
-      const newStock = Math.max(0, product.stock - qty);
-      await supabase.from('products').update({ stock: newStock }).eq('id', product.id);
-    }
   }
 
   // Fires the admin new-order alert, which triggers the linked customer
@@ -151,6 +163,10 @@ Deno.serve(async (req) => {
     })
     .join('\n');
 
+  const oversoldWarning = oversoldItems.length > 0
+    ? `⚠️ OVERSOLD - ALREADY PAID, MANUAL REFUND/RESTOCK NEEDED: ${oversoldItems.join(', ')} ⚠️\n\n`
+    : '';
+
   await sendOrderEmail({
     fullname: metadata.full_name || '',
     email: data.customer?.email || '',
@@ -158,7 +174,7 @@ Deno.serve(async (req) => {
     address: metadata.address || '',
     amount: Math.round(data.amount / 100).toLocaleString(),
     reference: data.reference,
-    order: orderDetailsText,
+    order: oversoldWarning + orderDetailsText,
   });
 
   return new Response('OK', { status: 200 });
