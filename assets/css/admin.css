@@ -197,8 +197,22 @@
 .admin-order-row {
   background: var(--surface);
   border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 10px;
   padding: 14px 16px;
+}
+
+.admin-order-row[data-status="shipped"] {
+  border-left-color: #3b82f6;
+}
+
+.admin-order-row[data-status="delivered"] {
+  border-left-color: #22c55e;
+}
+
+.admin-order-row[data-status="cancelled"] {
+  border-left-color: var(--text-muted);
+  opacity: 0.7;
 }
 
 .admin-order-header {
@@ -222,6 +236,24 @@
 .admin-order-ref {
   font-size: 11px;
   color: var(--text-muted);
+}
+
+.admin-order-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.admin-order-status {
+  font-size: 12px;
+  padding: 5px 8px;
+  background-color: var(--surface-alt);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-family: var(--font);
 }
 
 .admin-order-intl-badge {

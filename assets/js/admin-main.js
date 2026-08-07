@@ -1,5 +1,16 @@
 // Bootstraps admin.html. Loaded last so every function it wires up is
 // already defined by the other assets/js/admin-*.js files loaded before it.
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+window.addEventListener('scroll', function () {
+  const btn = document.querySelector('.back-to-top');
+  if (!btn) return;
+  btn.classList.toggle('show', window.scrollY > 400);
+});
+
 document.addEventListener('DOMContentLoaded', function () {
   const copyrightYear = document.getElementById('copyright-year');
   if (copyrightYear) copyrightYear.textContent = new Date().getFullYear();
