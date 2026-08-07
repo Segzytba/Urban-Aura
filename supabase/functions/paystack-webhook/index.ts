@@ -118,7 +118,11 @@ Deno.serve(async (req) => {
   // impossible to miss in the admin dashboard and needs a manual refund.
   const oversoldItems: string[] = [];
   for (const item of items) {
-    const qty = Number(item.quantity) || 1;
+    // item.quantity comes from Paystack's stored transaction metadata, which
+    // is client-supplied and never validated by Paystack itself - clamp to a
+    // positive integer so a tampered negative value can't turn a "decrement"
+    // into a stock increase via the RPC below.
+    const qty = Math.max(1, Math.floor(Number(item.quantity)) || 1);
     const { data: success, error: rpcError } = await supabase.rpc('decrement_stock_by_name', {
       p_name: item.productName,
       p_qty: qty,
@@ -157,7 +161,7 @@ Deno.serve(async (req) => {
   // recorded order into a failed webhook response.
   const orderDetailsText = items
     .map((item: { productName?: string; size?: string; quantity?: number; price?: number }) => {
-      const qty = Number(item.quantity) || 1;
+      const qty = Math.max(1, Math.floor(Number(item.quantity)) || 1);
       const lineTotal = (Number(item.price) || 0) * qty;
       return `📦 ${item.productName || 'Item'} (${item.size || 'M'}) x${qty} - ₦${lineTotal.toLocaleString()}`;
     })
